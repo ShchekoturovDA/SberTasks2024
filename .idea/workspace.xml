@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f19da8f0-ff52-4bfb-a592-480105a00421" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RevJav/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/RevJav/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/DataContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/DataContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/FileInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/FileInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/IO.java" beforeDir="false" afterPath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/IO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/Shed.java" beforeDir="false" afterPath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/Shed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/otdel.java" beforeDir="false" afterPath="$PROJECT_DIR$/RevJav/src/main/java/org/sber/otdel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

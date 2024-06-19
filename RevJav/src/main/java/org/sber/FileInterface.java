@@ -5,8 +5,8 @@ import java.io.UnsupportedEncodingException;
 
 public interface FileInterface {
     void createLog();
-    void writeFile(String name, String str);
+    void writeFile(String str);
 
     String readFile(String name);
-    void cleanLogDirectory();
+    void cleanLogDirectory(String filename);
 }
