@@ -8,6 +8,7 @@ public class Main {
 
         otdel test = new otdel();
         DataContainer dc = new DataContainer("John", 55, "Fedotovo & Babushkina", 1.5, 3);
-        test.exec(6, dc);
+
+        test.exec(6, 5, dc);
     }
 }

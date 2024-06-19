@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class otdel {
-    public void exec(int date, DataContainer dc) throws InstantiationException, IllegalAccessException, InvocationTargetException {
+    public void exec(int date,int hour, DataContainer dc) throws InstantiationException, IllegalAccessException, InvocationTargetException {
         List<Class> subs = new ArrayList<>();
         subs.add(ShedMor.class);
         subs.add(ShedEv.class);
@@ -15,7 +15,7 @@ public class otdel {
             Object s = sub.newInstance();
             List<Method> ms = List.of(sub.getDeclaredMethods());
 //            System.out.println(ms);
-            ms = ms.stream().sorted(Comparator.comparingInt(x -> ((Timtim)x.getAnnotation(Timtim.class)).prior())).toList();
+            ms = ms.stream().filter(x -> (x.getAnnotation(Timtim.class)).hour() == hour).sorted(Comparator.comparingInt(x -> (x.getAnnotation(Timtim.class)).prior())).toList();
             for(Method m: ms){
                 m.invoke(s, dc);
                 System.out.println(dc.toString());

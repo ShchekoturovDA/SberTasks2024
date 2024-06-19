@@ -1,8 +1,6 @@
 package org.sber;
 
 import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.annotation.*;
 
 @Daily(day = 6)
@@ -14,15 +12,15 @@ abstract class Shed {
 class ShedMor extends Shed{
 
     @Override
-    @Timtim(hour=8, prior = 4, descr = "Newcomer reg")
-    void xExec( DataContainer dc) {
+    @Timtim(hour=5, prior = 4, descr = "Newcomer reg")
+    void xExec(@NonNull DataContainer dc) {
             dc.setPasslvl(1);
             System.out.println(dc.getName() + "got lvl 1");
     }
 
     @Override
-    @Timtim(hour=10, prior = 1, descr = "Newcomer went")
-    void Fin( DataContainer dc) {
+    @Timtim(hour=5, prior = 1, descr = "Newcomer went")
+    void Fin(@NonNull DataContainer dc) {
             dc.setName("Avarage Worker #953");
             System.out.println(dc.getName() + " you are");
     }
@@ -30,9 +28,9 @@ class ShedMor extends Shed{
 
 class ShedEv extends Shed{
 
-    @Timtim(hour=16, prior = 3, descr = "Try and fail")
+    @Timtim(hour=5, prior = 3, descr = "Try and fail")
     @Override
-    void xExec( DataContainer dc) {
+    void xExec(@NonNull DataContainer dc) {
         int req = 3;
         if (dc.getPasslvl() < req) {
             dc.setAge(dc.getAge() * dc.getPasslvl());
@@ -43,9 +41,9 @@ class ShedEv extends Shed{
         }
     }
 
-    @Timtim(hour=18, prior = 2, descr = "Against all")
+    @Timtim(hour=3, prior = 2, descr = "Against all")
     @Override
-    void Fin( DataContainer dc) {
+    void Fin(@NonNull DataContainer dc) {
         dc.setAdress("Lost hwy 65");
         dc.setName("Last Call");
     }
@@ -53,16 +51,16 @@ class ShedEv extends Shed{
 
 @Daily(day = 5)
 class ShedNig extends Shed{
-    @Timtim(hour=19, prior = 3, descr = "Find way")
+    @Timtim(hour=5, prior = 3, descr = "Find way")
     @Override
-    void xExec(DataContainer dc) {
+    void xExec(@NonNull DataContainer dc) {
         dc.setPasslvl(0);
         dc.setAge(25);
     }
 
-    @Timtim(hour=22, prior = 2, descr = "Hard day")
+    @Timtim(hour=2, prior = 20, descr = "Hard day")
     @Override
-    void Fin(DataContainer dc) {
-        dc = null;
+    void Fin(@NonNull DataContainer dc) {
+        dc.setName("Default");
     }
 }
