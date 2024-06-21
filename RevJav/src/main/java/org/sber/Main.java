@@ -2,6 +2,9 @@ package org.sber;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        ShedNig Test = new ShedNig();
+        DataContainer t = new DataContainer();
+        t.setAdress("21B Baker st.");
+        Test.Block(t);
     }
 }
