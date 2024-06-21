@@ -21,7 +21,7 @@ class ShedMor extends Shed{
     @Override
     @Timtim(hour=5, prior = 1, descr = "Newcomer went")
     void Fin(@NonNull DataContainer dc) {
-            dc.setName("Avarage Worker #953");
+            dc.setName("Average Worker #953");
             System.out.println(dc.getName() + " you are");
     }
 }
