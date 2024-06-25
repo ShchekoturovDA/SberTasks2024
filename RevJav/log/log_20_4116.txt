@@ -1,1 +1,0 @@
-DataContainer(name=Average Worker #953, age=55, Adress=Fedotovo & Babushkina, height=1.5, Passlvl=1)
