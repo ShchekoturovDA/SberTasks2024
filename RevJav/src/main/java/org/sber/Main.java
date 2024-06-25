@@ -1,13 +1,10 @@
 package org.sber;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class Main {
-
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException, InvocationTargetException {
-
-        otdel test = new otdel();
-        DataContainer dc = new DataContainer("John", 55, "Fedotovo & Babushkina", 1.5, 3);
-        test.exec(6, dc);
+    public static void main(String[] args) {
+        ShedNig Test = new ShedNig();
+        DataContainer t = new DataContainer();
+        t.setAdress("21B Baker st.");
+        Test.Block(t);
     }
 }
