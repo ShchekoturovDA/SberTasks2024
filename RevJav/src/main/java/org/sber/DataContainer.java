@@ -3,14 +3,13 @@ package org.sber;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
 
 @AllArgsConstructor
 @Data
 public class DataContainer {
-    String name;
-    int age;
-    String Adress;
-    Double height;
-    int Passlvl;
+    private String name;
+    private int age;
+    private String address;
+    private Double height;
+    private int passLevel;
 }

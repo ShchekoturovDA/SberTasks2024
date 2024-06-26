@@ -2,60 +2,53 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.sber.DataContainer;
 import org.sber.IO;
-import org.sber.otdel;
-
+import org.sber.executor;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 public class Testing {
 
     @Test
-    public void TestOtdNig() throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        otdel test = new otdel();
-        DataContainer dc = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
-        DataContainer dc2 = dc;
-        test.exec(5, 5, dc);
-        dc2.setAge(25);
-        dc2.setPasslvl(0);
-        Assert.assertEquals(dc2, dc);
-
-        test.exec(5, 2, dc);
-        dc2.setName("Default");
-        Assert.assertEquals(dc2, dc);
-
+    public void TestScheduleNight() throws InvocationTargetException, InstantiationException, IllegalAccessException {
+        executor test = new executor();
+        DataContainer dataContainer = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
+        DataContainer dataContainer2 = dataContainer;
+        test.chooseAction(5, 5, dataContainer);
+        dataContainer2.setAge(25);
+        dataContainer2.setPassLevel(0);
+        Assert.assertEquals(dataContainer2, dataContainer);
+        test.chooseAction(5, 2, dataContainer);
+        dataContainer2.setName("Default");
+        Assert.assertEquals(dataContainer2, dataContainer);
     }
 
     @Test
-    public void TestOtdOth() throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        otdel test = new otdel();
-        DataContainer dc = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
-        DataContainer dc2 = dc;
-        test.exec(6, 5, dc);
-
-        Assert.assertEquals(new DataContainer("Average Worker #953", 43, "Lukyan", 1.9, 1), dc);
-
-        test.exec(6, 3, dc);
-        dc2.setName("Default");
-        Assert.assertEquals(dc2, dc);
-
+    public void TestScheduleOther() throws InvocationTargetException, InstantiationException, IllegalAccessException {
+        executor test = new executor();
+        DataContainer dataContainer = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
+        DataContainer dataContainer2 = dataContainer;
+        test.chooseAction(6, 5, dataContainer);
+        Assert.assertEquals(new DataContainer("Average Worker #953", 43, "Lukyan", 1.9, 1), dataContainer);
+        test.chooseAction(6, 3, dataContainer);
+        dataContainer2.setName("Default");
+        Assert.assertEquals(dataContainer2, dataContainer);
     }
 
     @Test
     public void CountTest() throws InvocationTargetException, InstantiationException, IllegalAccessException, InterruptedException {
         IO io = new IO();
         io.createLog();
-        otdel test = new otdel();
-        DataContainer dc = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
-        test.exec(6, 3, dc);
-        io.writeFile(dc.toString());
+        executor test = new executor();
+        DataContainer dataContainer = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
+        test.chooseAction(6, 3, dataContainer);
+        io.writeFile(dataContainer.toString());
         Thread.sleep(1000);
-        test.exec(6, 3, dc);
-        io.writeFile(dc.toString());
+        test.chooseAction(6, 3, dataContainer);
+        io.writeFile(dataContainer.toString());
         Thread.sleep(1000);
-        test.exec(6, 3, dc);
+        test.chooseAction(6, 3, dataContainer);
         Thread.sleep(1000);
-        io.writeFile(dc.toString());
+        io.writeFile(dataContainer.toString());
         Assert.assertEquals(2, (new File("log")).listFiles().length);
-
     }
 }
