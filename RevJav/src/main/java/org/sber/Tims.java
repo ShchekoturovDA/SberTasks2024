@@ -8,6 +8,5 @@ import java.lang.annotation.Target;
 @Target(value= ElementType.METHOD)
 @Retention(value= RetentionPolicy.RUNTIME)
 @interface Tims {
-
     Tim[] value();
 }

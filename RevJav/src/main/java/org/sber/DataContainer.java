@@ -1,6 +1,5 @@
 package org.sber;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

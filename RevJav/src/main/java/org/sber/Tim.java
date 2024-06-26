@@ -10,7 +10,6 @@ import java.lang.annotation.Retention;
 @Retention(value= RetentionPolicy.RUNTIME)
 @Repeatable(Tims.class)
 public @interface Tim {
-
     int hour();
     int prior();
     String descr();

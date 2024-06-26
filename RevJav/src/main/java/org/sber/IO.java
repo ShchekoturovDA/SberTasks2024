@@ -32,7 +32,6 @@ public class IO implements FileInterface{
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
