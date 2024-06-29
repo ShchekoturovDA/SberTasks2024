@@ -18,7 +18,10 @@ public class Executor {
         for (Class subClass : subClasses) {
             Object classExemplar = subClass.newInstance();
             List<Method> methods = List.of(subClass.getDeclaredMethods());
-            methods = methods.stream().filter(x -> (x.getAnnotation(Timer.class)).hour() == hour).sorted(Comparator.comparingInt(x -> (x.getAnnotation(Timer.class)).prior())).toList();
+            methods = methods.stream()
+                    .filter(x -> (x.getAnnotation(Timer.class)).hour() == hour)
+                    .sorted(Comparator.comparingInt(x -> (x.getAnnotation(Timer.class)).prior()))
+                    .toList();
             for (Method method : methods) {
                 method.invoke(classExemplar, dataContainer);
                 System.out.println(dataContainer.toString());
