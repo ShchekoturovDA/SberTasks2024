@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-public class IO implements FileInterface{
+public class IO implements FileInterface {
 
     @Override
     public void createLog() {
         File log = new File("log");
-        if (!log.exists()){
+        if (!log.exists()) {
             log.mkdir();
         }
     }

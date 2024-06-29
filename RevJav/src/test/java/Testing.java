@@ -2,7 +2,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.sber.DataContainer;
 import org.sber.IO;
-import org.sber.executor;
+import org.sber.Executor;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
@@ -10,7 +11,7 @@ public class Testing {
 
     @Test
     public void TestScheduleNight() throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        executor test = new executor();
+        Executor test = new Executor();
         DataContainer dataContainer = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
         DataContainer dataContainer2 = dataContainer;
         test.chooseAction(5, 5, dataContainer);
@@ -24,7 +25,7 @@ public class Testing {
 
     @Test
     public void TestScheduleOther() throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        executor test = new executor();
+        Executor test = new Executor();
         DataContainer dataContainer = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
         DataContainer dataContainer2 = dataContainer;
         test.chooseAction(6, 5, dataContainer);
@@ -38,7 +39,7 @@ public class Testing {
     public void CountTest() throws InvocationTargetException, InstantiationException, IllegalAccessException, InterruptedException {
         IO io = new IO();
         io.createLog();
-        executor test = new executor();
+        Executor test = new Executor();
         DataContainer dataContainer = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
         test.chooseAction(6, 3, dataContainer);
         io.writeFile(dataContainer.toString());

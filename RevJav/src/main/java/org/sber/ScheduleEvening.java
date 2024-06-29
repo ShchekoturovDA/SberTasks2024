@@ -2,11 +2,11 @@ package org.sber;
 
 import lombok.NonNull;
 
-class scheduleEvening extends schedule {
+public class ScheduleEvening extends Schedule {
 
-    @Tim(hour=5, prior = 3, descr = "Try and fail")
+    @Timer(hour = 5, prior = 3, descr = "Try and fail")
     @Override
-    void execute(@NonNull DataContainer dataContainer) {
+    public void execute(@NonNull DataContainer dataContainer) {
         if (dataContainer.getPassLevel() < 3) {
             dataContainer.setAge(dataContainer.getAge() * dataContainer.getPassLevel());
             System.out.println(dataContainer.getName() + " Denied");
@@ -16,9 +16,9 @@ class scheduleEvening extends schedule {
         }
     }
 
-    @Tim(hour=3, prior = 2, descr = "Against all")
+    @Timer(hour = 3, prior = 2, descr = "Against all")
     @Override
-    void fin(@NonNull DataContainer dataContainer) {
+    public void fin(@NonNull DataContainer dataContainer) {
         dataContainer.setAddress("Lost hwy 65");
         dataContainer.setName("Last Call");
     }
