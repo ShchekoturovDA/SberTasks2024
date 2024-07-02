@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 public class Testing {
 
     @Test
-    public void TestScheduleNight() throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void testScheduleNight() throws InvocationTargetException, InstantiationException, IllegalAccessException {
         Executor test = new Executor();
         DataContainer dataContainer = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
         DataContainer dataContainer2 = dataContainer;
@@ -24,7 +24,7 @@ public class Testing {
     }
 
     @Test
-    public void TestScheduleOther() throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void testScheduleOther() throws InvocationTargetException, InstantiationException, IllegalAccessException {
         Executor test = new Executor();
         DataContainer dataContainer = new DataContainer("Vasil", 43, "Lukyan", 1.9, 5);
         DataContainer dataContainer2 = dataContainer;
@@ -36,7 +36,7 @@ public class Testing {
     }
 
     @Test
-    public void CountTest() throws InvocationTargetException, InstantiationException, IllegalAccessException, InterruptedException {
+    public void countTest() throws InvocationTargetException, InstantiationException, IllegalAccessException, InterruptedException {
         IO io = new IO();
         io.createLog();
         Executor test = new Executor();

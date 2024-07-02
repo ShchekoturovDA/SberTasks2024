@@ -23,14 +23,10 @@ public class IO implements FileInterface {
         String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH_mmss"));
         String fileName = "log/log_" + timeStamp + ".txt";
         cleanLogDirectory();
-        try {
-            PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+        try(PrintWriter writer = new PrintWriter(fileName, "UTF-8")){
             writer.println(str);
-            writer.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
