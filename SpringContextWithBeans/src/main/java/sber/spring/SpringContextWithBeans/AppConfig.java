@@ -24,7 +24,7 @@ public class AppConfig {
     }
 
     @Bean
-    public Human human() {
-        return new Human(parrot(), parrot(), cat(), dog());
+    public Human human(Parrot parrot1, Parrot parrot2, Cat cat, Dog dog) {
+        return new Human(parrot1, parrot2, cat, dog);
     }
 }
