@@ -9,22 +9,22 @@ public class AppConfig {
 
     @Scope("prototype")
     @Bean
-    public Parrot parrot(){
+    public Parrot parrot() {
         return new Parrot();
     }
 
     @Bean
-    public Cat cat(){
+    public Cat cat() {
         return new Cat();
     }
 
     @Bean
-    public Dog dog(){
+    public Dog dog() {
         return new Dog();
     }
 
     @Bean
-    public Human human(){
+    public Human human() {
         return new Human(parrot(), parrot(), cat(), dog());
     }
 }

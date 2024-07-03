@@ -9,24 +9,23 @@ import org.springframework.context.ApplicationContext;
 @SpringBootTest
 public class SpringContextApplicationTests {
 
-	@Autowired
-	private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-	@Test
-	public void checkComponents() {
-		Human human = applicationContext.getBean(Human.class);
-		Human human1 = new Human(new Parrot(), new Parrot(), new Cat(), new Dog());
-		Assert.assertEquals(human1, human);
-	}
+    @Test
+    public void checkComponents() {
+        Human human = applicationContext.getBean(Human.class);
+        Human human1 = new Human(new Parrot(), new Parrot(), new Cat(), new Dog());
+        Assert.assertEquals(human1, human);
+    }
 
-	@Test
-	public void checkPrototype() {
-		Human human = applicationContext.getBean(Human.class);
-		human.getParrot2().setName("Lexiy");
-		Assert.assertEquals(new Parrot(), human.getParrot1());
-		Parrot testParrot = new Parrot();
-		testParrot.setName("Lexiy");
-		Assert.assertEquals(testParrot, human.getParrot2());
-	}
-
+    @Test
+    public void checkPrototype() {
+        Human human = applicationContext.getBean(Human.class);
+        human.getParrot2().setName("Lexiy");
+        Assert.assertEquals(new Parrot(), human.getParrot1());
+        Parrot testParrot = new Parrot();
+        testParrot.setName("Lexiy");
+        Assert.assertEquals(testParrot, human.getParrot2());
+    }
 }

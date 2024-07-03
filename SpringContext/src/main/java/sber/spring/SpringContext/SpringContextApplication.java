@@ -9,19 +9,16 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class SpringContextApplication implements CommandLineRunner {
 
-	@Autowired
-	private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringContextApplication.class, args);
+    }
 
-		SpringApplication.run(SpringContextApplication.class, args);
-	}
-
-	@Override
-	public void run(String...args) throws Exception {
-
-		Human human = applicationContext.getBean(Human.class);
-		System.out.println(human.getParrot2().getName());
-	}
-
+    @Override
+    public void run(String... args) throws Exception {
+        Human human = applicationContext.getBean(Human.class);
+        System.out.println(human.getParrot2().getName());
+    }
 }
