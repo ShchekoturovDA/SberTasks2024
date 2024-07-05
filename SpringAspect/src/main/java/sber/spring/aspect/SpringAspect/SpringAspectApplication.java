@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
-public class SpringAspectApplication implements CommandLineRunner {
+public class SpringAspectApplication {
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -16,10 +16,4 @@ public class SpringAspectApplication implements CommandLineRunner {
 		SpringApplication.run(SpringAspectApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		JustClass js = applicationContext.getBean(JustClass.class);
-//		js.againAndAgain(null);
-//		js.shizofrenia(null, null, null);
-	}
 }

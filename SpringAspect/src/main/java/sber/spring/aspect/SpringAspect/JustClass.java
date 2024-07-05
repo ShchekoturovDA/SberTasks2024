@@ -6,13 +6,14 @@ import org.springframework.stereotype.Component;
 public class JustClass {
 
     @NotEmpty
-    public String againAndAgain(String post){
+    public String againAndAgain(Object post){
         System.out.println("Again "+ post);
         return "Again "+ post;
     }
 
     @NotEmpty
-    public void shizofrenia(Integer pulmonolog, String okulist, Boolean lore){
+    public String shizofrenia(Integer pulmonolog, String okulist, Boolean lore){
         System.out.println("Nevermore!");
+        return pulmonolog + okulist + lore;
     }
 }

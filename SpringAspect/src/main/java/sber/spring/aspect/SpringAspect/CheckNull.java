@@ -16,10 +16,14 @@ public class CheckNull {
         Object [] arguments = joinPoint.getArgs();
         for (Object argument : arguments) {
             if (argument == null){
-                throw new NullPointerException();
-            } else if (argument.getClass() == Collection.class || argument.getClass() == String.class){
-                if(((String) argument).isEmpty()){
-                    throw new NullPointerException();
+                throw new NullPointerException("Object mustn't have null value or be empty!");
+            } else if (argument.getClass() == String.class){
+                if( ((String) argument).isEmpty()){
+                    throw new NullPointerException("Object mustn't have null value or be empty!");
+                }
+            } else if (argument instanceof Collection){
+                if( ((Collection) argument).isEmpty()){
+                    throw new NullPointerException("Object mustn't have null value or be empty!");
                 }
             }
         }
