@@ -29,6 +29,11 @@ class SpringAspectApplicationTests {
 		} catch (Exception e){
 			Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
 		}
+		try{
+			js.shizofrenia(5, new String(), true);
+		} catch (Exception e){
+			Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
+		}
 	}
 
 }
