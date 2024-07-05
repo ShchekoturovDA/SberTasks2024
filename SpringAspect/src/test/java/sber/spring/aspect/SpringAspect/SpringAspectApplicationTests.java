@@ -11,29 +11,29 @@ import java.util.LinkedList;
 @SpringBootTest
 class SpringAspectApplicationTests {
 
-	@Autowired
-	private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-	@Test
-	public void contextLoads(){
-		JustClass js = applicationContext.getBean(JustClass.class);
-		Assert.assertEquals("Again Yarik", js.againAndAgain("Yarik"));
-		Assert.assertEquals("5klosefalse", js.shizofrenia(5, "klose", false));
-		try{
-			js.shizofrenia(5, "klose", null);
-		} catch (Exception e){
-			Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
-		}
-		try{
-			js.againAndAgain(new LinkedList());
-		} catch (Exception e){
-			Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
-		}
-		try{
-			js.shizofrenia(5, new String(), true);
-		} catch (Exception e){
-			Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
-		}
-	}
+    @Test
+    public void contextLoads() {
+        JustClass js = applicationContext.getBean(JustClass.class);
+        Assert.assertEquals("Again Yarik", js.againAndAgain("Yarik"));
+        Assert.assertEquals("5klosefalse", js.atLast(5, "klose", false));
+        try {
+            js.atLast(5, "klose", null);
+        } catch (Exception e) {
+            Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
+        }
+        try {
+            js.againAndAgain(new LinkedList());
+        } catch (Exception e) {
+            Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
+        }
+        try {
+            js.atLast(5, new String(), true);
+        } catch (Exception e) {
+            Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
+        }
+    }
 
 }

@@ -12,17 +12,17 @@ import java.util.Collection;
 public class CheckNull {
 
     @Before("@annotation(NotEmpty)")
-    public void checking(JoinPoint joinPoint){
-        Object [] arguments = joinPoint.getArgs();
+    public void checking(JoinPoint joinPoint) {
+        Object[] arguments = joinPoint.getArgs();
         for (Object argument : arguments) {
-            if (argument == null){
+            if (argument == null) {
                 throw new NullPointerException("Object mustn't have null value or be empty!");
-            } else if (argument.getClass() == String.class){
-                if( ((String) argument).isEmpty()){
+            } else if (argument.getClass() == String.class) {
+                if (((String) argument).isEmpty()) {
                     throw new NullPointerException("Object mustn't have null value or be empty!");
                 }
-            } else if (argument instanceof Collection){
-                if( ((Collection) argument).isEmpty()){
+            } else if (argument instanceof Collection) {
+                if (((Collection) argument).isEmpty()) {
                     throw new NullPointerException("Object mustn't have null value or be empty!");
                 }
             }
