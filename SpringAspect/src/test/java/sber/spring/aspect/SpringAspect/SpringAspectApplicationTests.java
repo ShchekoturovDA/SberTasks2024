@@ -35,5 +35,4 @@ class SpringAspectApplicationTests {
             Assert.assertEquals("Object mustn't have null value or be empty!", e.getMessage());
         }
     }
-
 }
