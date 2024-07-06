@@ -1,20 +1,18 @@
 package sber.spring.Mvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootApplication
-public class MvcApplication extends SpringBootServletInitializer {
+public class MvcApplication{
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     public static void main(String[] args) {
         SpringApplication.run(MvcApplication.class, args);
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(MvcApplication.class);
-    }
 }
