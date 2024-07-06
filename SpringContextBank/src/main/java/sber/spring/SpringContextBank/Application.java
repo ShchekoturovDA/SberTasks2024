@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Data
 public class Application {
 
-    private String nickName = "Winding";
-    private Double amount = 5684.54;
+    private final static String nickName = "Winding";
+    private final static Double amount = 5684.54;
     @Autowired
     private BankClientsApp bankClientsApp;
     @Autowired
