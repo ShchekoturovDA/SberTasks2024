@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 @Aspect
@@ -15,15 +16,14 @@ public class CheckNull {
     public void checking(JoinPoint joinPoint) {
         Object[] arguments = joinPoint.getArgs();
         for (Object argument : arguments) {
-            if (argument == null) {
-                throw new NullPointerException("Object mustn't have null value or be empty!");
-            } else if (argument.getClass() == String.class) {
+            Optional<Object> checkArg = Optional.of(argument);
+            if (argument.getClass() == String.class) {
                 if (((String) argument).isEmpty()) {
-                    throw new NullPointerException("Object mustn't have null value or be empty!");
+                    throw new IllegalArgumentException("Object mustn't have null value or be empty!");
                 }
             } else if (argument instanceof Collection) {
                 if (((Collection) argument).isEmpty()) {
-                    throw new NullPointerException("Object mustn't have null value or be empty!");
+                    throw new IllegalArgumentException("Object mustn't have null value or be empty!");
                 }
             }
         }
