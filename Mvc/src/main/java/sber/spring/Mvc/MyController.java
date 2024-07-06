@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MyController {
 
-    @GetMapping("/")
+    @GetMapping("/my")
     public String myPage() {
-        return "MyPage";
+        return "MyPage.html";
     }
 }

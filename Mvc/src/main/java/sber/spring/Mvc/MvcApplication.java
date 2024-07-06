@@ -8,8 +8,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootApplication
 public class MvcApplication{
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     public static void main(String[] args) {
         SpringApplication.run(MvcApplication.class, args);
