@@ -7,6 +7,7 @@ import sber.spring.Rest.entities.Product;
 import sber.spring.Rest.repositories.ClientRepository;
 import sber.spring.Rest.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,5 +42,33 @@ public class ClientService {
 
     public boolean deleteProductFromRep(long id) {
         return productRepository.delete(id);
+    }
+
+    public List<Product> searchProductByNameRep(String name) {
+        return productRepository.searchByName(name);
+    }
+
+    public boolean isInBin(long clientId, long productId) {
+        return clientRepository.isInBinInRep(clientId, productId);
+    }
+
+    public void addToBin(long clientId, long productId) {
+        clientRepository.addToBinInRep(clientId, productRepository.search(productId).get());
+    }
+
+    public void sellProduct(long id, int quantity) {
+        productRepository.sell(id, quantity);
+    }
+
+    public void changeQuantity(long clientId, long productId, int quantity) {
+        clientRepository.changeQuantityInBin(clientId, productId, quantity);
+    }
+
+    public void deleteProductFromBin(long clientId, long productId) {
+        clientRepository.deleteFromBin(clientId, productId);
+    }
+
+    public void pay(long clientId) {
+        clientRepository.payForBin(clientId);
     }
 }

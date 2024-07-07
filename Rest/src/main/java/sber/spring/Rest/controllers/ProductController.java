@@ -8,6 +8,7 @@ import sber.spring.Rest.service.ClientService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,6 +32,14 @@ public class ProductController {
         Optional<Product> searched = clientService.searchProductRep(id);
         return searched.isPresent()
                 ? ResponseEntity.ok().body(searched.get())
+                : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping({"/id"})
+    public ResponseEntity<List<Product>> productGetByName(@PathVariable String name){
+        List<Product> searched = clientService.searchProductByNameRep(name);
+        return !searched.isEmpty()
+                ? ResponseEntity.ok().body(searched)
                 : ResponseEntity.notFound().build();
     }
 

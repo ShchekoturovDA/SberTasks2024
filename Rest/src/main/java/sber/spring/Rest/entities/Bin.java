@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 @Data
 @AllArgsConstructor
-public class Basket {
+public class Bin {
     private int id;
     private LinkedList<Product> productList;
     private String promoCode;

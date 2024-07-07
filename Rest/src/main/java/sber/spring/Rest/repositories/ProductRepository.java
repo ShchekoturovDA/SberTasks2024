@@ -1,11 +1,13 @@
 package sber.spring.Rest.repositories;
 
-import sber.spring.Rest.entities.Client;
+import org.springframework.stereotype.Repository;
 import sber.spring.Rest.entities.Product;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Repository
 public class ProductRepository {
     private List<Product> productList;
     private int ids;
@@ -22,13 +24,12 @@ public class ProductRepository {
     }
 
     public void update(Product product) {
-        Product update = productList.stream()
-                .filter(x -> x.getId() == product.getId())
-                .findAny()
-                .orElse(null);
-        if (update != null){
-            productList.remove(update);
-            productList.add(product);
+        for(Product productFromList : productList){
+            if(productFromList.getId() == product.getId()){
+                productFromList.setName(product.getName());
+                productFromList.setQuantity(product.getQuantity());
+                productFromList.setValue(product.getValue());
+            }
         }
     }
 
@@ -49,5 +50,15 @@ public class ProductRepository {
             productList.remove(delete);
             return true;
         }
+    }
+
+    public List<Product> searchByName(String name) {
+        return productList.stream().filter(x -> x.getName() == name).collect(Collectors.toList());
+    }
+
+    public void sell(long id, int quantity) {
+        Product product = search(id).get();
+        product.setQuantity(product.getQuantity() - quantity);
+        update(product);
     }
 }
