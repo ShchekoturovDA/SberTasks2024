@@ -2,8 +2,10 @@ package sber.spring.Rest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sber.spring.Rest.entities.Bin;
 import sber.spring.Rest.entities.Client;
 import sber.spring.Rest.entities.Product;
+import sber.spring.Rest.repositories.BinRepository;
 import sber.spring.Rest.repositories.ClientRepository;
 import sber.spring.Rest.repositories.ProductRepository;
 
@@ -16,6 +18,8 @@ public class ClientService {
     private ClientRepository clientRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private BinRepository binRepository;
 
     public long saveClient(Client client){
       return clientRepository.signClient(client);
@@ -48,27 +52,33 @@ public class ClientService {
         return productRepository.searchByName(name);
     }
 
-    public boolean isInBin(long clientId, long productId) {
-        return clientRepository.isInBinInRep(clientId, productId);
-    }
 
-    public void addToBin(long clientId, long productId) {
-        clientRepository.addToBinInRep(clientId, productRepository.search(productId).get());
-    }
 
     public void sellProduct(long id, int quantity) {
         productRepository.sell(id, quantity);
     }
 
-    public void changeQuantity(long clientId, long productId, int quantity) {
-        clientRepository.changeQuantityInBin(clientId, productId, quantity);
+    public Optional<Bin> searchBinRep(long binId) {
+        return binRepository.search(binId);
     }
 
-    public void deleteProductFromBin(long clientId, long productId) {
-        clientRepository.deleteFromBin(clientId, productId);
+    public boolean isInBin(long binId, long productId) {
+        return binRepository.isInBin(binId, productId);
     }
 
-    public void pay(long clientId) {
-        clientRepository.payForBin(clientId);
+    public void addToBin(long binId, long productId) {
+        binRepository.add(binId, productRepository.search(productId).get());
+    }
+
+    public void changeQuantity(long binId, long productId, int quantity) {
+        binRepository.changeQuantity(binId, productId, quantity);
+    }
+
+    public void deleteProductFromBin(long binId, long productId) {
+        binRepository.deleteFromBin(binId, productId);
+    }
+
+    public void pay(long binId) {
+        binRepository.pay(binId);
     }
 }

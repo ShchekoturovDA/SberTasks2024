@@ -8,7 +8,7 @@ import java.util.LinkedList;
 @Data
 @AllArgsConstructor
 public class Bin {
-    private int id;
+    private long id;
     private LinkedList<Product> productList;
     private String promoCode;
 }
