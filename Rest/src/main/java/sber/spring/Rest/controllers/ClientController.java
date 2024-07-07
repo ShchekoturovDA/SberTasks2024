@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sber.spring.Rest.entities.Client;
-import sber.spring.Rest.entities.Product;
 import sber.spring.Rest.service.ClientService;
 
 import java.net.URI;
