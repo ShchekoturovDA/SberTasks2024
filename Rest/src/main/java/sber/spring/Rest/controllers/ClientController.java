@@ -1,6 +1,7 @@
 package sber.spring.Rest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sber.spring.Rest.entities.Client;
@@ -17,12 +18,12 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<Void> clientReg(@RequestBody Client client) throws URISyntaxException {
+    public ResponseEntity<String> clientReg(@RequestBody Client client) throws URISyntaxException {
         long savedId = clientService.saveClient(client);
         if (savedId == 0){
-            return null;
+            return new ResponseEntity<String>("Client with such login already exists", HttpStatus.OK);
         } else {
-            return ResponseEntity.created(new URI("http://localhost:8080/clients/" + savedId)).build();
+            return ResponseEntity.created(new URI("http://localhost:8080/client/" + savedId)).build();
         }
     }
 

@@ -22,7 +22,15 @@ public class ClientService {
     private BinRepository binRepository;
 
     public long saveClient(Client client){
-      return clientRepository.signClient(client);
+      if (!clientRepository.isClient(client)){
+          return clientRepository.signClient(client, binRepository.createBin());
+      } else {
+          return 0;
+      }
+    }
+
+    public void updateBin(long clientId){
+        clientRepository.updateBin(clientId, binRepository.getBin(clientId));
     }
 
     public Optional<Client> searchClientRep(long id) {
@@ -68,17 +76,21 @@ public class ClientService {
 
     public void addToBin(long binId, long productId) {
         binRepository.add(binId, productRepository.search(productId).get());
+        clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 
     public void changeQuantity(long binId, long productId, int quantity) {
         binRepository.changeQuantity(binId, productId, quantity);
+        clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 
     public void deleteProductFromBin(long binId, long productId) {
         binRepository.deleteFromBin(binId, productId);
+        clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 
     public void pay(long binId) {
         binRepository.pay(binId);
+        clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 }

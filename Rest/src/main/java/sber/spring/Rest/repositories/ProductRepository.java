@@ -1,16 +1,19 @@
 package sber.spring.Rest.repositories;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sber.spring.Rest.entities.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 public class ProductRepository {
-    private List<Product> productList;
-    private int ids;
+
+    private List<Product> productList = new ArrayList<Product>();
+    private int ids = 0;
 
     public long addProduct(Product product) {
         product.setId(generateId());
@@ -53,7 +56,14 @@ public class ProductRepository {
     }
 
     public List<Product> searchByName(String name) {
-        return productList.stream().filter(x -> x.getName() == name).collect(Collectors.toList());
+        List<Product> list = new ArrayList<Product>();
+        for (Product product : productList){
+            System.out.println(product.getName());
+            if (product.getName() == name){
+                list.add(product);
+            }
+        }
+        return list;//productList.stream().filter(x -> x.getName() == name).collect(Collectors.toList());
     }
 
     public void sell(long id, int quantity) {

@@ -18,8 +18,9 @@ public class ProductController {
     private ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<Void> productCreate(@RequestBody Product product) throws URISyntaxException {
-        return ResponseEntity.created(new URI("http://localhost:8080/clients/" + clientService.saveProduct(product))).build();
+    public ResponseEntity<String> productCreate(@RequestBody Product product) throws URISyntaxException {
+        return ResponseEntity.created(new URI("http://localhost:8080/product/" + clientService.saveProduct(product))).build();
+//        return new ResponseEntity<>("Created Product with id: " + clientService.saveProduct(product), HttpStatus.OK);
     }
 
     @PutMapping()
@@ -27,7 +28,7 @@ public class ProductController {
         clientService.updateProduct(product);
     }
 
-    @GetMapping({"/id"})
+    @GetMapping("/{id}")
     public ResponseEntity<Product> productGet(@PathVariable long id){
         Optional<Product> searched = clientService.searchProductRep(id);
         return searched.isPresent()
@@ -35,7 +36,8 @@ public class ProductController {
                 : ResponseEntity.notFound().build();
     }
 
-    @GetMapping({"/id"})
+    //какаято херь, нмчего не находит
+    @GetMapping("/filter/{name}")
     public ResponseEntity<List<Product>> productGetByName(@PathVariable String name){
         List<Product> searched = clientService.searchProductByNameRep(name);
         return !searched.isEmpty()
@@ -43,7 +45,8 @@ public class ProductController {
                 : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/id")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> productDelete(@PathVariable long id){
         return clientService.deleteProductFromRep(id)
                 ? ResponseEntity.noContent().build()
