@@ -29,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> productGet(@PathVariable long id){
+    public ResponseEntity<Product> productGet(@PathVariable int id){
         Optional<Product> searched = clientService.searchProductRep(id);
         return searched.isPresent()
                 ? ResponseEntity.ok().body(searched.get())
@@ -47,7 +47,7 @@ public class ProductController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> productDelete(@PathVariable long id){
+    public ResponseEntity<Void> productDelete(@PathVariable int id){
         return clientService.deleteProductFromRep(id)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();

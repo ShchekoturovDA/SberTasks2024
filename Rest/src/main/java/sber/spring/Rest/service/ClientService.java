@@ -48,11 +48,11 @@ public class ClientService {
         productRepository.update(product);
     }
 
-    public Optional<Product> searchProductRep(long id) {
+    public Optional<Product> searchProductRep(int id) {
         return productRepository.search(id);
     }
 
-    public boolean deleteProductFromRep(long id) {
+    public boolean deleteProductFromRep(int id) {
         return productRepository.delete(id);
     }
 
@@ -62,7 +62,7 @@ public class ClientService {
 
 
 
-    public void sellProduct(long id, int quantity) {
+    public void sellProduct(int id, int quantity) {
         productRepository.sell(id, quantity);
     }
 
@@ -74,7 +74,7 @@ public class ClientService {
         return binRepository.isInBin(binId, productId);
     }
 
-    public void addToBin(long binId, long productId) {
+    public void addToBin(long binId, int productId) {
         binRepository.add(binId, productRepository.search(productId).get());
         clientRepository.updateBin(binId, binRepository.getBin(binId));
     }

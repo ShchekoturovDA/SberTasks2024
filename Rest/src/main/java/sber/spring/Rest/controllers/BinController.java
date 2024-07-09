@@ -12,7 +12,7 @@ public class BinController {
     private ClientService clientService;
 
     @PutMapping("/{binId}/add/{productId}")
-    public ResponseEntity<Void> binAdd(@PathVariable long binId, @PathVariable long productId){
+    public ResponseEntity<Void> binAdd(@PathVariable long binId, @PathVariable int productId){
         if (clientService.searchBinRep(binId).isEmpty() || clientService.searchProductRep(productId).isEmpty()) {
             return ResponseEntity.notFound().build();
         } else if (clientService.searchProductRep(productId).get().getQuantity() == 0) {
@@ -24,7 +24,7 @@ public class BinController {
     }
 
     @PutMapping("{binId}/change/{productId}/{quantity}")
-    public ResponseEntity<Void> binChangeQuantity(@PathVariable long binId, @PathVariable long productId, @PathVariable int quantity){
+    public ResponseEntity<Void> binChangeQuantity(@PathVariable long binId, @PathVariable int productId, @PathVariable int quantity){
         if (clientService.searchBinRep(binId).isEmpty() || clientService.searchProductRep(productId).isEmpty()) {
             return ResponseEntity.notFound().build();
         } else if (!clientService.isInBin(binId, productId)) {
@@ -36,7 +36,7 @@ public class BinController {
     }
 
     @DeleteMapping("/{binId}/change/{productId}")
-    public ResponseEntity<Void> deleteFromBin(@PathVariable long binId, @PathVariable long productId){
+    public ResponseEntity<Void> deleteFromBin(@PathVariable long binId, @PathVariable int productId){
         if (clientService.searchBinRep(binId).isEmpty() || clientService.searchProductRep(productId).isEmpty()) {
             return ResponseEntity.notFound().build();
         } else if (!clientService.isInBin(binId, productId)) {
