@@ -1,7 +1,7 @@
 create table products
 (
     id    integer,
-    name  varchar(255) not null,
+    productName  varchar(255) not null,
     value numeric      not null,
     quantity integer      not null,
     constraint products_id_pk primary key (id)
@@ -17,7 +17,7 @@ create table bins
 create table clients
 (
     id       integer,
-    name     varchar(255) not null,
+    clientName     varchar(255) not null,
     login varchar(255) not null,
     password varchar(255) not null,
     email    varchar(255),
@@ -34,5 +34,9 @@ create table products_bins
     id_bin    integer not null,
     constraint products_bin_id_pk primary key (id),
     constraint product_client_products_id_fk foreign key (id_product) references products (id),
-    constraint product_client_bin_id_fk foreign key (id_bin) references bins (id),
+    constraint product_client_bin_id_fk foreign key (id_bin) references bins (id)
 );
+
+insert into bins values(58, 'TomExecutor')
+insert into clients values(58, 'Tom', 'Tom43', 'qwerty35', 'Thomas@gmail.com', 58)
+select * from clients
