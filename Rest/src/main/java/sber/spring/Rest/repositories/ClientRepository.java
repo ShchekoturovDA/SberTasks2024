@@ -1,30 +1,48 @@
 package sber.spring.Rest.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import sber.spring.Rest.entities.Bin;
 import sber.spring.Rest.entities.Client;
 import sber.spring.Rest.entities.Product;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class ClientRepository {
-    private List<Client> clientList = new ArrayList<Client>();
-    private int ids = 0;
 
-    public static final String JDBC = "jdbc:postgresql://localhost:8079/postgres?currentSchema=my_sch&user=postgres&password=Rattlehead85";
+    private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    ClientRepository(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public int signClient(Client client, int binId) {
-        var insertSql = "INSERT INTO clients (clientName, clientLogin, clientPassword, email, bin_id) VALUES(?, ?, ?, ?, ?);";
+        String insertSql = "INSERT INTO my_sch.clients (name_client, login_client, password_client, email, id_bin) VALUES(?, ?, ?, ?, ?);";
 
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        PreparedStatementCreator preparedStatementCreator = con -> {
+            PreparedStatement preparedStatement = con.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, client.getName());
+            preparedStatement.setString(2, client.getLogin());
+            preparedStatement.setString(3, client.getPassword());
+            preparedStatement.setString(4, client.getEmail());
+            preparedStatement.setInt(5, binId);
+            return  preparedStatement;
+        };
+
+        jdbcTemplate.update(preparedStatementCreator, keyHolder);
+        return (int) keyHolder.getKeys().get("id_client");
+
+
+        /*
         try(var connection = DriverManager.getConnection(JDBC);
             var prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
             prepareStatement.setString(1, client.getName());
@@ -44,7 +62,7 @@ public class ClientRepository {
             throw new RuntimeException(e);
         }
 
-        /*        client.setId(generateId());
+        client.setId(generateId());
         client.setBin(bin);
         client.getBin().setId(client.getId());
         clientList.add(client);
@@ -56,8 +74,18 @@ public class ClientRepository {
     }*/
 
     public Optional<Client> searchClient(int id) {
-        var selectSql = "SELECT * FROM clients where clientId = ?";
+        String selectSql = "SELECT * FROM my_sch.clients where id_client = ?";
 
+        PreparedStatementCreator preparedStatementCreator = con -> {
+            PreparedStatement preparedStatement = con.prepareStatement(selectSql);
+            preparedStatement.setInt(1, id);
+            return preparedStatement;
+        };
+
+        List<Client> clients = jdbcTemplate.query(preparedStatementCreator, getClientRowMapper());
+        return clients.stream().findFirst();
+
+        /*
         try (var connection = DriverManager.getConnection(JDBC);
              var prepareStatement = connection.prepareStatement(selectSql)) {
             prepareStatement.setInt(1, id);
@@ -87,9 +115,32 @@ public class ClientRepository {
                 .findAny();*/
     }
 
-    public boolean deleteClient(int id) {
-        var selectSql = "DELETE FROM clients where clientId = ?";
+    private static RowMapper<Client> getClientRowMapper() {
+        return (resultSet, rowNum) -> {
+            int id = resultSet.getInt("id_client");
+            String name = resultSet.getString("name_client");
+            String login = resultSet.getString("login_client");
+            String password = resultSet.getString("password_client");
+            String email = resultSet.getString("email");
+            int binId = resultSet.getInt("id_bin");
+            return new Client(id, name, login, password, email, binId);
+        };
+    }
 
+    public boolean deleteClient(int id) {
+        String deleteSql = "DELETE FROM my_sch.clients where id_client = ?";
+
+        PreparedStatementCreator preparedStatementCreator = con -> {
+            PreparedStatement preparedStatement = con.prepareStatement(deleteSql);
+            preparedStatement.setInt(1, id);
+
+            return preparedStatement;
+        };
+
+        int rows = jdbcTemplate.update(preparedStatementCreator);
+        return rows > 0;
+
+        /*
         try (var connection = DriverManager.getConnection(JDBC);
              var prepareStatement = connection.prepareStatement(selectSql)) {
             prepareStatement.setInt(1, id);
@@ -99,17 +150,23 @@ public class ClientRepository {
             return rows > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private long generateId() {
-        ids += 1;
-        return ids;
+        }*/
     }
 
     public boolean isClient(Client client) {
-        var selectSql = "SELECT * FROM clients where clientLogin = ?";
+        String selectSql = "SELECT * FROM my_sch.clients where login_client = ?";
 
+        PreparedStatementCreator preparedStatementCreator = con -> {
+            PreparedStatement preparedStatement = con.prepareStatement(selectSql);
+            preparedStatement.setString(1, client.getLogin());
+
+            return preparedStatement;
+        };
+
+        return jdbcTemplate.query(preparedStatementCreator, getClientRowMapper()).stream().findFirst().isPresent();
+    }
+
+        /*
         try (var connection = DriverManager.getConnection(JDBC);
              var prepareStatement = connection.prepareStatement(selectSql)) {
             prepareStatement.setString(1, client.getLogin());
@@ -120,5 +177,5 @@ public class ClientRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }

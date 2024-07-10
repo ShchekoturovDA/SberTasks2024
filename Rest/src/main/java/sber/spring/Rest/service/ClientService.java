@@ -29,10 +29,6 @@ public class ClientService {
         }
     }
 
-/*    public void updateBin(int clientId){
-        clientRepository.updateBin(clientId, binRepository.getBin(clientId));
-    }*/
-
     public Optional<Client> searchClientRep(int id) {
         return clientRepository.searchClient(id);
     }

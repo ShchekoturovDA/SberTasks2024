@@ -1,6 +1,7 @@
 package sber.spring.Rest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sber.spring.Rest.entities.Product;
@@ -19,13 +20,17 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<String> productCreate(@RequestBody Product product) throws URISyntaxException {
-        return ResponseEntity.created(new URI("http://localhost:8080/product/" + clientService.saveProduct(product))).build();
-//        return new ResponseEntity<>("Created Product with id: " + clientService.saveProduct(product), HttpStatus.OK);
+        return new ResponseEntity<String>("Created Product with id: " + clientService.saveProduct(product), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public void productUpdate(@RequestBody Product product){
-        clientService.updateProduct(product);
+    public ResponseEntity<String> productUpdate(@RequestBody Product product){
+        if (clientService.searchProductRep(product.getId()).isPresent()) {
+            clientService.updateProduct(product);
+            return new ResponseEntity<String>("Product with id = " + product.getId() + " successfully changed", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("Product with id = " + product.getId() + " doesn't exists",HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{id}")
@@ -36,7 +41,6 @@ public class ProductController {
                 : ResponseEntity.notFound().build();
     }
 
-    //какаято херь, нмчего не находит
     @GetMapping("/filter/{name}")
     public ResponseEntity<List<Product>> productGetByName(@PathVariable String name){
         List<Product> searched = clientService.searchProductByNameRep(name);
@@ -47,10 +51,10 @@ public class ProductController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> productDelete(@PathVariable int id){
+    public ResponseEntity<String> productDelete(@PathVariable int id){
         return clientService.deleteProductFromRep(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+                ? new ResponseEntity<String>("Product with id = " + id + " successfully deleted", HttpStatus.NO_CONTENT)
+                : new ResponseEntity<String>("Product with id = " + id + " doesn't exists", HttpStatus.NOT_FOUND);
     }
 
 }

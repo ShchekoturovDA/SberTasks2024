@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import sber.spring.Rest.entities.Client;
 import sber.spring.Rest.service.ClientService;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
@@ -23,7 +22,7 @@ public class ClientController {
         if (savedId == 0){
             return new ResponseEntity<String>("Client with such login already exists", HttpStatus.OK);
         } else {
-            return ResponseEntity.created(new URI("http://localhost:8080/client/" + savedId)).build();
+            return new ResponseEntity<String>("Created client with id: " + savedId, HttpStatus.CREATED);
         }
     }
 
@@ -36,9 +35,9 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> clientDelete(@PathVariable int id){
+    public ResponseEntity<String> clientDelete(@PathVariable int id){
         return clientService.deleteClientFromRep(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+                ? new ResponseEntity<String>("Product successfully deleted", HttpStatus.NO_CONTENT)
+                : new ResponseEntity<String>("Product with id = " + id + " doesn't exists", HttpStatus.NOT_FOUND);
     }
 }
