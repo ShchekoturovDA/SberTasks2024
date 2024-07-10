@@ -29,9 +29,9 @@ public class ClientService {
         }
     }
 
-    public void updateBin(int clientId){
+/*    public void updateBin(int clientId){
         clientRepository.updateBin(clientId, binRepository.getBin(clientId));
-    }
+    }*/
 
     public Optional<Client> searchClientRep(int id) {
         return clientRepository.searchClient(id);
@@ -66,31 +66,31 @@ public class ClientService {
         productRepository.sell(id, quantity);
     }
 
-    public Optional<Bin> searchBinRep(long binId) {
+    public Optional<Bin> searchBinRep(int binId) {
         return binRepository.search(binId);
     }
 
-    public boolean isInBin(long binId, long productId) {
+    public boolean isInBin(int binId, int productId) {
         return binRepository.isInBin(binId, productId);
     }
 
-    public void addToBin(int binId, int productId) {
-        binRepository.add(binId, productRepository.search(productId).get());
-        clientRepository.updateBin(binId, binRepository.getBin(binId));
+    public int addToBin(int binId, int productId) {
+        return binRepository.add(binId, productId);
     }
 
     public void changeQuantity(int binId, int productId, int quantity) {
         binRepository.changeQuantity(binId, productId, quantity);
-        clientRepository.updateBin(binId, binRepository.getBin(binId));
+        //       clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 
-    public void deleteProductFromBin(int binId, int productId) {
-        binRepository.deleteFromBin(binId, productId);
-        clientRepository.updateBin(binId, binRepository.getBin(binId));
+    public boolean deleteProductFromBin(int binId, int productId) {
+         return binRepository.deleteFromBin(binId, productId);
+//        clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 
-    public void pay(int binId) {
-        binRepository.pay(binId);
-        clientRepository.updateBin(binId, binRepository.getBin(binId));
+    public boolean pay(int binId) {
+        return binRepository.pay(binId);
+//        clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
+
 }

@@ -51,9 +51,9 @@ public class ClientRepository {
         return client.getId();*/
     }
 
-    public void updateBin(long clientId, int binId){
+/*    public void updateBin(long clientId, int binId){
         clientList.stream().filter(x -> x.getId() == clientId).findAny().get().setBinId(binId);
-    }
+    }*/
 
     public Optional<Client> searchClient(int id) {
         var selectSql = "SELECT * FROM clients where clientId = ?";

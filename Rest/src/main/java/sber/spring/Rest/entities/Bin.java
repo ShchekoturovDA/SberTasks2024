@@ -12,6 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 public class Bin {
     private long id;
-    private List<Product> productList;
     private String promoCode;
 }
