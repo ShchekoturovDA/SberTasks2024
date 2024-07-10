@@ -1,4 +1,4 @@
-package sber.spring.Rest.entities;
+package sber.spring.JDBCRest.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

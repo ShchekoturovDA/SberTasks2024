@@ -1,13 +1,13 @@
-package sber.spring.Rest.service;
+package sber.spring.JDBCRest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sber.spring.Rest.entities.Bin;
-import sber.spring.Rest.entities.Client;
-import sber.spring.Rest.entities.Product;
-import sber.spring.Rest.repositories.BinRepository;
-import sber.spring.Rest.repositories.ClientRepository;
-import sber.spring.Rest.repositories.ProductRepository;
+import sber.spring.JDBCRest.entities.Bin;
+import sber.spring.JDBCRest.entities.Client;
+import sber.spring.JDBCRest.entities.Product;
+import sber.spring.JDBCRest.repositories.BinRepository;
+import sber.spring.JDBCRest.repositories.ClientRepository;
+import sber.spring.JDBCRest.repositories.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;

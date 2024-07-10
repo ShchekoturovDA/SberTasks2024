@@ -1,7 +1,7 @@
-package sber.spring.Rest.repositories;
+package sber.spring.JDBCRest.repositories;
 
 import org.springframework.stereotype.Repository;
-import sber.spring.Rest.entities.Bin;
+import sber.spring.JDBCRest.entities.Bin;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;

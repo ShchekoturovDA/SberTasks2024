@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>sber.spring</groupId>
-	<artifactId>Rest</artifactId>
+	<artifactId>JDBCRest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Rest</name>
+	<name>JDBCRest</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
