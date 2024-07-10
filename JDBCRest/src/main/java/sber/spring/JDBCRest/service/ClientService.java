@@ -8,7 +8,6 @@ import sber.spring.JDBCRest.entities.Product;
 import sber.spring.JDBCRest.repositories.BinRepository;
 import sber.spring.JDBCRest.repositories.ClientRepository;
 import sber.spring.JDBCRest.repositories.ProductRepository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +27,6 @@ public class ClientService {
             return 0;
         }
     }
-
-/*    public void updateBin(int clientId){
-        clientRepository.updateBin(clientId, binRepository.getBin(clientId));
-    }*/
 
     public Optional<Client> searchClientRep(int id) {
         return clientRepository.searchClient(id);
@@ -60,12 +55,6 @@ public class ClientService {
         return productRepository.searchByName(name);
     }
 
-
-
-    public void sellProduct(int id, int quantity) {
-        productRepository.sell(id, quantity);
-    }
-
     public Optional<Bin> searchBinRep(int binId) {
         return binRepository.search(binId);
     }
@@ -80,17 +69,14 @@ public class ClientService {
 
     public void changeQuantity(int binId, int productId, int quantity) {
         binRepository.changeQuantity(binId, productId, quantity);
-        //       clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 
     public boolean deleteProductFromBin(int binId, int productId) {
          return binRepository.deleteFromBin(binId, productId);
-//        clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 
     public boolean pay(int binId) {
         return binRepository.pay(binId);
-//        clientRepository.updateBin(binId, binRepository.getBin(binId));
     }
 
 }
