@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>sber.spring</groupId>
-	<artifactId>Rest</artifactId>
+	<artifactId>RestAlone</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Rest</name>
+	<name>RestAlone</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -53,7 +53,7 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

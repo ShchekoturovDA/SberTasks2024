@@ -1,10 +1,10 @@
-package sber.spring.Rest;
+package sber.spring.RestAlone;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestApplicationTests {
+class RestAloneApplicationTests {
 
 	@Test
 	void contextLoads() {
