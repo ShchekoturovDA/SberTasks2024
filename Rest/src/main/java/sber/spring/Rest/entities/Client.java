@@ -13,5 +13,5 @@ public class Client {
     private  String login;
     private  String password;
     private  String email;
-    private Bin bin;
+    private int binId;
 }

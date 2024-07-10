@@ -22,14 +22,16 @@ public class ClientRepository {
     public static final String JDBC = "jdbc:postgresql://localhost:8079/postgres?currentSchema=my_sch&user=postgres&password=Rattlehead85";
 
 
-    public long signClient(Client client, Bin bin) {
-        var insertSql = "INSERT INTO clients (clientName, clientLogin, clientPassword, email) VALUES(?, ?, ?);";
+    public int signClient(Client client, int binId) {
+        var insertSql = "INSERT INTO clients (clientName, clientLogin, clientPassword, email, bin_id) VALUES(?, ?, ?, ?, ?);";
 
         try(var connection = DriverManager.getConnection(JDBC);
             var prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
-            prepareStatement.setString(1, product.getName());
-            prepareStatement.setInt(2, product.getValue());
-            prepareStatement.setInt(3, product.getQuantity());
+            prepareStatement.setString(1, client.getName());
+            prepareStatement.setString(2, client.getLogin());
+            prepareStatement.setString(3, client.getPassword());
+            prepareStatement.setString(4, client.getEmail());
+            prepareStatement.setInt(5, binId);
 
             prepareStatement.executeUpdate();
             ResultSet rs = prepareStatement.getGeneratedKeys();
@@ -49,26 +51,54 @@ public class ClientRepository {
         return client.getId();*/
     }
 
-    public void updateBin(long clientId, Bin bin){
-        clientList.stream().filter(x -> x.getId() == clientId).findAny().get().setBin(bin);
+    public void updateBin(long clientId, int binId){
+        clientList.stream().filter(x -> x.getId() == clientId).findAny().get().setBinId(binId);
     }
 
-    public Optional<Client> searchClient(long id) {
-        return clientList.stream()
+    public Optional<Client> searchClient(int id) {
+        var selectSql = "SELECT * FROM clients where clientId = ?";
+
+        try (var connection = DriverManager.getConnection(JDBC);
+             var prepareStatement = connection.prepareStatement(selectSql)) {
+            prepareStatement.setInt(1, id);
+
+            var resultSet = prepareStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int returnId = resultSet.getInt("clientId");
+                String name = resultSet.getString("clientName");
+                String login = resultSet.getString("clientLogin");
+                String password = resultSet.getString("clientPassword");
+                String email = resultSet.getString("email");
+                int binId = resultSet.getInt("bin_id");
+                Client client = new Client(returnId, name, login, password, email, binId);
+
+                return Optional.of(client);
+            }
+
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+/*        return clientList.stream()
                 .filter(x -> x.getId() == id)
-                .findAny();
+                .findAny();*/
     }
 
-    public boolean deleteClient(long id) {
-        Client delete = clientList.stream()
-                .filter(x -> x.getId() == id)
-                .findAny()
-                .orElse(null);
-        if (delete == null){
-            return false;
-        } else {
-            clientList.remove(delete);
-            return true;
+    public boolean deleteClient(int id) {
+        var selectSql = "DELETE FROM clients where clientId = ?";
+
+        try (var connection = DriverManager.getConnection(JDBC);
+             var prepareStatement = connection.prepareStatement(selectSql)) {
+            prepareStatement.setInt(1, id);
+
+            var rows = prepareStatement.executeUpdate();
+
+            return rows > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -78,9 +108,17 @@ public class ClientRepository {
     }
 
     public boolean isClient(Client client) {
-        return clientList.stream()
-                .filter(x -> x.getLogin() != client.getLogin())
-                .findAny()
-                .isPresent();
+        var selectSql = "SELECT * FROM clients where clientLogin = ?";
+
+        try (var connection = DriverManager.getConnection(JDBC);
+             var prepareStatement = connection.prepareStatement(selectSql)) {
+            prepareStatement.setString(1, client.getLogin());
+
+            var resultSet = prepareStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

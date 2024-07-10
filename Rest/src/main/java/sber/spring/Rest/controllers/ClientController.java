@@ -28,7 +28,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> clientGet(@PathVariable long id){
+    public ResponseEntity<Client> clientGet(@PathVariable int id){
         Optional<Client> searched = clientService.searchClientRep(id);
         return searched.isPresent()
                 ? ResponseEntity.ok().body(searched.get())
@@ -36,7 +36,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> clientDelete(@PathVariable long id){
+    public ResponseEntity<Void> clientDelete(@PathVariable int id){
         return clientService.deleteClientFromRep(id)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
