@@ -1,4 +1,4 @@
-package sber.spring.Rest.entities;
+package sber.spring.RestAlone.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,8 +1,8 @@
-package sber.spring.Rest.repositories;
+package sber.spring.RestAlone.repositories;
 
 import org.springframework.stereotype.Repository;
-import sber.spring.Rest.entities.Bin;
-import sber.spring.Rest.entities.Product;
+import sber.spring.RestAlone.entities.Bin;
+import sber.spring.RestAlone.entities.Product;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,13 +1,13 @@
-package sber.spring.Rest.service;
+package sber.spring.RestAlone.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sber.spring.Rest.entities.Bin;
-import sber.spring.Rest.entities.Client;
-import sber.spring.Rest.entities.Product;
-import sber.spring.Rest.repositories.BinRepository;
-import sber.spring.Rest.repositories.ClientRepository;
-import sber.spring.Rest.repositories.ProductRepository;
+import sber.spring.RestAlone.entities.Bin;
+import sber.spring.RestAlone.entities.Client;
+import sber.spring.RestAlone.entities.Product;
+import sber.spring.RestAlone.repositories.BinRepository;
+import sber.spring.RestAlone.repositories.ClientRepository;
+import sber.spring.RestAlone.repositories.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;

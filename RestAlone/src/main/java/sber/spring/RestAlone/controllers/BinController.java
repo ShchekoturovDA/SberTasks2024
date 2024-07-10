@@ -1,9 +1,9 @@
-package sber.spring.Rest.controllers;
+package sber.spring.RestAlone.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sber.spring.Rest.service.ClientService;
+import sber.spring.RestAlone.service.ClientService;
 
 @RestController
 @RequestMapping("bin")

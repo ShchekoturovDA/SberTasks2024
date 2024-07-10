@@ -1,10 +1,10 @@
-package sber.spring.Rest.repositories;
+package sber.spring.RestAlone.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import sber.spring.Rest.entities.Bin;
-import sber.spring.Rest.entities.Client;
-import sber.spring.Rest.entities.Product;
+import sber.spring.RestAlone.entities.Bin;
+import sber.spring.RestAlone.entities.Client;
+import sber.spring.RestAlone.entities.Product;
 
 import java.util.ArrayList;
 import java.util.List;
