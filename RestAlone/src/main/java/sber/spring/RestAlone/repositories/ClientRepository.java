@@ -1,10 +1,8 @@
 package sber.spring.RestAlone.repositories;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sber.spring.RestAlone.entities.Bin;
 import sber.spring.RestAlone.entities.Client;
-import sber.spring.RestAlone.entities.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +14,21 @@ public class ClientRepository {
     private int ids = 0;
 
     public long signClient(Client client, Bin bin) {
-        client.setId(generateId());
-        client.setBin(bin);
-        client.getBin().setId(client.getId());
-        clientList.add(client);
-        return client.getId();
+        if (!clientList.stream()
+                .filter(x -> x.getLogin() != client.getLogin())
+                .findAny()
+                .isPresent()) {
+            client.setId(generateId());
+            client.setBin(bin);
+            client.getBin().setId(client.getId());
+            clientList.add(client);
+            return client.getId();
+        } else {
+            return 0;
+        }
     }
 
-    public void updateBin(long clientId, Bin bin){
+    public void updateBin(long clientId, Bin bin) {
         clientList.stream().filter(x -> x.getId() == clientId).findAny().get().setBin(bin);
     }
 
@@ -38,7 +43,7 @@ public class ClientRepository {
                 .filter(x -> x.getId() == id)
                 .findAny()
                 .orElse(null);
-        if (delete == null){
+        if (delete == null) {
             return false;
         } else {
             clientList.remove(delete);
@@ -51,10 +56,4 @@ public class ClientRepository {
         return ids;
     }
 
-    public boolean isClient(Client client) {
-        return clientList.stream()
-                .filter(x -> x.getLogin() != client.getLogin())
-                .findAny()
-                .isPresent();
-    }
 }

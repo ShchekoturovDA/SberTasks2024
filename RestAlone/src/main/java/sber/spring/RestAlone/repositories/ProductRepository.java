@@ -1,6 +1,5 @@
 package sber.spring.RestAlone.repositories;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sber.spring.RestAlone.entities.Product;
 
@@ -27,8 +26,8 @@ public class ProductRepository {
     }
 
     public void update(Product product) {
-        for(Product productFromList : productList){
-            if(productFromList.getId() == product.getId()){
+        for (Product productFromList : productList) {
+            if (productFromList.getId() == product.getId()) {
                 productFromList.setName(product.getName());
                 productFromList.setQuantity(product.getQuantity());
                 productFromList.setValue(product.getValue());
@@ -47,7 +46,7 @@ public class ProductRepository {
                 .filter(x -> x.getId() == id)
                 .findAny()
                 .orElse(null);
-        if (delete == null){
+        if (delete == null) {
             return false;
         } else {
             productList.remove(delete);

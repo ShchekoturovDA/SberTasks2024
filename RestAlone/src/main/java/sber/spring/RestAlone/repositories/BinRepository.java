@@ -5,7 +5,6 @@ import sber.spring.RestAlone.entities.Bin;
 import sber.spring.RestAlone.entities.Product;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +23,7 @@ public class BinRepository {
         return binList.stream().filter(x -> x.getId() == binId).findAny();
     }
 
-    public boolean isInBin(long binId, long productId){
+    public boolean isInBin(long binId, long productId) {
         return !binList.stream().filter(x -> x.getId() == binId).findAny().get().getProductList().stream().filter(x -> x.getId() == productId).findAny().isEmpty();
     }
 
@@ -45,13 +44,13 @@ public class BinRepository {
                         .filter(x -> x.getId() == binId)
                         .findAny()
                         .get().getProductList().stream()
-                                .filter(x -> x.getId() == productId)
-                                .findAny()
-                                .get());
+                        .filter(x -> x.getId() == productId)
+                        .findAny()
+                        .get());
     }
 
     public void pay(long binId) {
-        binList.stream().filter(x -> x.getId() == binId).findAny().get().setProductList(new LinkedList<Product>());
+        binList.stream().filter(x -> x.getId() == binId).findAny().get().setProductList(new ArrayList<Product>());
     }
 
 
