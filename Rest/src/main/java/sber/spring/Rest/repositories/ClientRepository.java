@@ -24,7 +24,7 @@ public class ClientRepository {
     }
 
     public int signClient(Client client, int binId) {
-        String insertSql = "INSERT INTO my_sch.clients (name_client, login_client, password_client, email, id_bin) VALUES(?, ?, ?, ?, ?);";
+        String insertSql = "INSERT INTO clients (name_client, login_client, password_client, email, id_bin) VALUES(?, ?, ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         PreparedStatementCreator preparedStatementCreator = con -> {
@@ -42,7 +42,7 @@ public class ClientRepository {
     }
 
     public Optional<Client> searchClient(int id) {
-        String selectSql = "SELECT * FROM my_sch.clients where id_client = ?";
+        String selectSql = "SELECT * FROM clients where id_client = ?";
         List<Client> clients = jdbcTemplate.query(selectSql, getClientRowMapper(), id);
         return clients.stream().findFirst();
     }
@@ -60,13 +60,13 @@ public class ClientRepository {
     }
 
     public boolean deleteClient(int id) {
-        String deleteSql = "DELETE FROM my_sch.clients where id_client = ?";
+        String deleteSql = "DELETE FROM clients where id_client = ?";
         int rows = jdbcTemplate.update(deleteSql, id);
         return rows > 0;
     }
 
     public boolean isClient(Client client) {
-        String selectSql = "SELECT * FROM my_sch.clients where login_client = ?";
+        String selectSql = "SELECT * FROM clients where login_client = ?";
         return jdbcTemplate.query(selectSql, getClientRowMapper(), client.getLogin()).stream().findFirst().isPresent();
     }
 }

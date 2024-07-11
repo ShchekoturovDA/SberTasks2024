@@ -25,7 +25,7 @@ public class ProductRepository {
     }
 
     public long addProduct(Product product) {
-        var insertSql = "INSERT INTO my_sch.products (name_product, value_product, quantity) VALUES(?, ?, ?);";
+        String insertSql = "INSERT INTO products (name_product, value_product, quantity) VALUES(?, ?, ?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         PreparedStatementCreator preparedStatementCreator = con -> {
@@ -43,19 +43,19 @@ public class ProductRepository {
     }
 
     public void update(Product product) {
-        var updateSql = """
-                        UPDATE my_sch.products
+        String updateSql = """
+                        UPDATE products
                         SET
                         name_product = ?,
                         value_product = ?,
                         quantity = ?
                         where id_product = ?;
                 """;
-        int rows = jdbcTemplate.update(updateSql, product.getName(), product.getValue(), product.getQuantity(), product.getId());
+        jdbcTemplate.update(updateSql, product.getName(), product.getValue(), product.getQuantity(), product.getId());
     }
 
     public Optional<Product> search(int id) {
-        var selectSql = "SELECT * FROM my_sch.products where id_product = ?";
+        String selectSql = "SELECT * FROM products where id_product = ?";
         RowMapper<Product> rowMapper = getProductRowMapper();
 
         List<Product> listProduct = jdbcTemplate.query(selectSql, rowMapper, id);
@@ -73,13 +73,13 @@ public class ProductRepository {
     }
 
     public boolean delete(int id) {
-        var deleteSql = "DELETE FROM my_sch.products where id_product = ?";
+        String deleteSql = "DELETE FROM products where id_product = ?";
         int rows = jdbcTemplate.update(deleteSql, id);
         return rows > 0;
     }
 
     public List<Product> searchByName(String name) {
-        var selectSql = "SELECT * FROM my_sch.products where name_product = ?";
+        String selectSql = "SELECT * FROM products where name_product = ?";
         RowMapper<Product> rowMapper = getProductRowMapper();
 
         return jdbcTemplate.query(selectSql, rowMapper, name);
@@ -87,7 +87,7 @@ public class ProductRepository {
 
 
     public void sell(Sold sold) {
-        var putSql = "UPDATE my_sch.products SET quantity = quantity - ? WHERE id_product = ?";
+        String putSql = "UPDATE products SET quantity = quantity - ? WHERE id_product = ?";
         jdbcTemplate.update(putSql, sold.getQuantity(), sold.getId());
     }
 

@@ -26,7 +26,7 @@ public class BinRepository {
     }
 
     public int createBin() {
-        var insertSql = "INSERT INTO my_sch.bins (promocode) VALUES(?);";
+        String insertSql = "INSERT INTO bins (promocode) VALUES(?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -42,7 +42,7 @@ public class BinRepository {
     }
 
     public Optional<Bin> search(int binId) {
-        String selectSql = "SELECT * FROM my_sch.bins where id_bin = ?";
+        String selectSql = "SELECT * FROM bins where id_bin = ?";
         return jdbcTemplate.query(selectSql, getBinRowMapper(), binId).stream().findFirst();
     }
 
@@ -56,7 +56,7 @@ public class BinRepository {
     }
 
     public boolean isInBin(int binId, int productId) {
-        String selectSql = "SELECT * FROM my_sch.products_bins where (id_bin = ? AND id_product = ?)";
+        String selectSql = "SELECT * FROM products_bins where (id_bin = ? AND id_product = ?)";
         return jdbcTemplate.query(selectSql,
                 (resultSet, rowNum) -> {
                     Bin bin = new Bin();
@@ -67,7 +67,7 @@ public class BinRepository {
 
     public int add(int binId, int productId) {
 
-        String insertSql = "INSERT INTO my_sch.products_bins (id_product, id_bin, count) VALUES(?, ?, ?);";
+        String insertSql = "INSERT INTO products_bins (id_product, id_bin, count) VALUES(?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -85,8 +85,8 @@ public class BinRepository {
     }
 
     public void changeQuantity(int binId, int productId, int quantity) {
-        var selectSql = """
-                        UPDATE my_sch.products_bins
+        String selectSql = """
+                        UPDATE products_bins
                         SET
                         count = ?
                         where (id_product = ? AND id_bin = ?);
@@ -105,13 +105,13 @@ public class BinRepository {
     }
 
     public boolean deleteFromBin(int binId, int productId) {
-        var selectSql = "DELETE FROM my_sch.products_bins where (id_product = ? AND id_bin = ?)";
+        String selectSql = "DELETE FROM products_bins where (id_product = ? AND id_bin = ?)";
         int rows = jdbcTemplate.update(selectSql, productId, binId);
         return rows > 0;
     }
 
     public List<Sold> selectAllFromBin(int binId) {
-        String selectSql = "SELECT * FROM my_sch.products_bins where id_bin = ?";
+        String selectSql = "SELECT * FROM products_bins where id_bin = ?";
         return jdbcTemplate.query(selectSql, (resultSet, rowNum) ->
         {
             return new Sold(resultSet.getInt("id_product"), resultSet.getInt("count"));
@@ -120,7 +120,7 @@ public class BinRepository {
 
     public void pay(int binId) {
 
-        String deleteSql = "DELETE FROM my_sch.products_bins where id_bin = ?";
+        String deleteSql = "DELETE FROM products_bins where id_bin = ?";
 
         jdbcTemplate.update(deleteSql, binId);
     }
