@@ -4,14 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sber.spring.Rest.entities.Bin;
+import sber.spring.Rest.entities.Sold;
 import sber.spring.Rest.repositories.BinRepository;
+import sber.spring.Rest.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BinService {
     @Autowired
     private BinRepository binRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     public int createBin() {
         return binRepository.createBin();
@@ -38,8 +44,12 @@ public class BinService {
     }
 
     @Transactional
-    public boolean pay(int binId) {
-        return binRepository.pay(binId);
+    public void pay(int binId) {
+        List<Sold> solds = binRepository.selectAllFromBin(binId);
+        for(Sold sold : solds){
+            productRepository.sell(sold);
+        }
+        binRepository.pay(binId);
     }
 
 }

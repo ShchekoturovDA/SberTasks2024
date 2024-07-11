@@ -8,18 +8,20 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import sber.spring.Rest.entities.Bin;
+import sber.spring.Rest.entities.Sold;
 
 import java.sql.*;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class BinRepository {
-//    public static final String JDBC = "jdbc:postgresql://localhost:8079/postgres?currentSchema=my_sch&user=postgres&password=Rattlehead85";
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public BinRepository(JdbcTemplate jdbcTemplate){
+    public BinRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -37,64 +39,15 @@ public class BinRepository {
 
         jdbcTemplate.update(preparedStatementCreator, keyHolder);
         return (int) keyHolder.getKeys().get("id_bin");
-
-        /*
-        try(var connection = DriverManager.getConnection(JDBC);
-            var prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
-            prepareStatement.setString(1, "");
-
-            prepareStatement.executeUpdate();
-            ResultSet rs = prepareStatement.getGeneratedKeys();
-            if(rs.next()) {
-                return rs.getInt(1);
-            } else {
-                throw new RuntimeException("Ошибка при получении идентификатора");
-            }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-
-/*        Bin bin = new Bin();
-        bin.setProductList(new ArrayList<Product>());
-        binList.add(bin);
-        return bin;*/
     }
 
     public Optional<Bin> search(int binId) {
         String selectSql = "SELECT * FROM my_sch.bins where id_bin = ?";
-
-        PreparedStatementCreator preparedStatementCreator = con -> {
-            PreparedStatement preparedStatement = con.prepareStatement(selectSql);
-            preparedStatement.setInt(1, binId);
-            return preparedStatement;
-        };
-        return jdbcTemplate.query(preparedStatementCreator, getBinRowMapper()).stream().findFirst();
-
-        /*
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql)) {
-            prepareStatement.setInt(1, binId);
-
-            var resultSet = prepareStatement.executeQuery();
-
-            if (resultSet.next()) {
-                int returnId = resultSet.getInt("binId");
-                String promocode = resultSet.getString("promocode");
-                Bin bin = new Bin(returnId, promocode);
-
-                return Optional.of(bin);
-            }
-
-            return Optional.empty();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
-
-//        return binList.stream().filter(x -> x.getId() == binId).findAny();
+        return jdbcTemplate.query(selectSql, getBinRowMapper(), binId).stream().findFirst();
     }
 
 
-    private static RowMapper<Bin> getBinRowMapper(){
+    private static RowMapper<Bin> getBinRowMapper() {
         return (resultSet, rowNum) -> {
             int binId = resultSet.getInt("id_bin");
             String promocode = resultSet.getString("promocode");
@@ -102,38 +55,14 @@ public class BinRepository {
         };
     }
 
-    public boolean isInBin(int binId, int productId){
+    public boolean isInBin(int binId, int productId) {
         String selectSql = "SELECT * FROM my_sch.products_bins where (id_bin = ? AND id_product = ?)";
-
-        PreparedStatementCreator preparedStatementCreator = con -> {
-            PreparedStatement preparedStatement = con.prepareStatement(selectSql);
-            preparedStatement.setInt(1, binId);
-            preparedStatement.setInt(2, productId);
-
-            return preparedStatement;
-        };
-
-        return jdbcTemplate.query(preparedStatementCreator,
-                (resultSet, rowNum)->{
+        return jdbcTemplate.query(selectSql,
+                (resultSet, rowNum) -> {
                     Bin bin = new Bin();
                     bin.setId(resultSet.getInt("id_bin"));
                     return bin;
-                }).stream().findFirst().isPresent();
-
-        /*
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql)) {
-            prepareStatement.setInt(1, binId);
-            prepareStatement.setInt(2, productId);
-
-            var resultSet = prepareStatement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        */
-        //        return !binList.stream().filter(x -> x.getId() == binId).findAny().get().getProductList().stream().filter(x -> x.getId() == productId).findAny().isEmpty();
+                }, binId, productId).stream().findFirst().isPresent();
     }
 
     public int add(int binId, int productId) {
@@ -152,39 +81,16 @@ public class BinRepository {
         };
 
         jdbcTemplate.update(preparedStatementCreator, keyHolder);
-        return (int)keyHolder.getKeys().get("products_binId");
-
-
-        /*
-        try(var connection = DriverManager.getConnection(JDBC);
-            var prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
-            prepareStatement.setInt(1, productId);
-            prepareStatement.setInt(2, binId);
-            prepareStatement.setInt(3, 1);
-
-            prepareStatement.executeUpdate();
-            ResultSet rs = prepareStatement.getGeneratedKeys();
-            if(rs.next()) {
-                return rs.getInt(1);
-            } else {
-                throw new RuntimeException("Ошибка при получении идентификатора");
-            }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-        */
-
-//        product.setQuantity(1);
-//        binList.stream().filter(x -> x.getId() == binId).findAny().get().getProductList().add(product);
+        return (int) keyHolder.getKeys().get("products_binId");
     }
 
     public void changeQuantity(int binId, int productId, int quantity) {
         var selectSql = """
-                UPDATE my_sch.products_bins
-                SET
-                count = ?
-                where (id_product = ? AND id_bin = ?);
-        """;
+                        UPDATE my_sch.products_bins
+                        SET
+                        count = ?
+                        where (id_product = ? AND id_bin = ?);
+                """;
 
         PreparedStatementCreator preparedStatementCreator = con -> {
             PreparedStatement preparedStatement = con.prepareStatement(selectSql);
@@ -195,94 +101,27 @@ public class BinRepository {
             return preparedStatement;
         };
 
-        jdbcTemplate.update(preparedStatementCreator);
-
-        /*
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql)) {
-            prepareStatement.setInt(1, quantity);
-            prepareStatement.setInt(2,productId);
-            prepareStatement.setInt(3, binId);
-
-            prepareStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
-//        binList.stream().filter(x -> x.getId() == binId).findAny().get().getProductList().stream().filter(x -> x.getId() == productId).findAny().get().setQuantity(quantity);
+        jdbcTemplate.update(selectSql, quantity, productId, binId);
     }
 
     public boolean deleteFromBin(int binId, int productId) {
         var selectSql = "DELETE FROM my_sch.products_bins where (id_product = ? AND id_bin = ?)";
-
-        PreparedStatementCreator preparedStatementCreator = con -> {
-            PreparedStatement preparedStatement = con.prepareStatement(selectSql);
-            preparedStatement.setInt(1, productId);
-            preparedStatement.setInt(2, binId);
-
-            return  preparedStatement;
-        };
-
-        int rows = jdbcTemplate.update(preparedStatementCreator);
+        int rows = jdbcTemplate.update(selectSql, productId, binId);
         return rows > 0;
-
-        /*
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql)) {
-            prepareStatement.setInt(1, productId);
-            prepareStatement.setInt(2, binId);
-
-            var rows = prepareStatement.executeUpdate();
-
-            return rows > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
-
-
-//        binList.stream()
-//                .filter(x -> x.getId() == binId)
-//                .findAny()
-//                .get().getProductList().remove(binList.stream()
-//                        .filter(x -> x.getId() == binId)
-//                        .findAny()
-//                        .get().getProductList().stream()
-//                                .filter(x -> x.getId() == productId)
-//                                .findAny()
-//                                .get());
     }
 
-    public boolean pay(int binId) {
-        var deleteSql = "DELETE FROM my_sch.products_bins where id_bin = ?";
-
-        PreparedStatementCreator preparedStatementCreator = con -> {
-            PreparedStatement preparedStatement = con.prepareStatement(deleteSql);
-            preparedStatement.setInt(1, binId);
-
-            return preparedStatement;
-        };
-
-        int rows = jdbcTemplate.update(preparedStatementCreator);
-        return rows > 0;
-
-    /*
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql)) {
-            prepareStatement.setInt(1, binId);
-
-            var rows = prepareStatement.executeUpdate();
-
-            return rows > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    */
-//        binList.stream().filter(x -> x.getId() == binId).findAny().get().setProductList(new LinkedList<Product>());
+    public List<Sold> selectAllFromBin(int binId) {
+        String selectSql = "SELECT * FROM my_sch.products_bins where id_bin = ?";
+        return jdbcTemplate.query(selectSql, (resultSet, rowNum) ->
+        {
+            return new Sold(resultSet.getInt("id_product"), resultSet.getInt("count"));
+        }, binId).stream().collect(Collectors.toList());
     }
 
+    public void pay(int binId) {
 
-    public int getBin(int binId) {
-//        return binList.stream().filter(x -> x.getId() == binId).findAny().get();
-        return 1;
+        String deleteSql = "DELETE FROM my_sch.products_bins where id_bin = ?";
+
+        jdbcTemplate.update(deleteSql, binId);
     }
-
 }

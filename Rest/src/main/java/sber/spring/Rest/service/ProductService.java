@@ -3,6 +3,7 @@ package sber.spring.Rest.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sber.spring.Rest.entities.Product;
+import sber.spring.Rest.entities.Sold;
 import sber.spring.Rest.repositories.ProductRepository;
 
 import java.util.List;
@@ -32,11 +33,7 @@ public class ProductService {
         return productRepository.searchByName(name);
     }
 
-
-
-    public void sellProduct(int id, int quantity) {
-        productRepository.sell(id, quantity);
+    public void sellProduct(Sold sold) {
+        productRepository.sell(sold);
     }
-
-
 }

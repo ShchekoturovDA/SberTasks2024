@@ -24,14 +24,14 @@ public class ClientController {
     public ResponseEntity<String> clientReg(@RequestBody Client client) throws URISyntaxException {
         if (clientService.isClient(client)) {
             return new ResponseEntity<String>("Client with such login already exists", HttpStatus.OK);
-        } else{
+        } else {
             int savedId = clientService.saveClient(client, binService.createBin());
             return new ResponseEntity<String>("Created client with id: " + savedId, HttpStatus.CREATED);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> clientGet(@PathVariable int id){
+    public ResponseEntity<Client> clientGet(@PathVariable int id) {
         Optional<Client> searched = clientService.searchClientRep(id);
         return searched.isPresent()
                 ? ResponseEntity.ok().body(searched.get())
@@ -39,7 +39,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> clientDelete(@PathVariable int id){
+    public ResponseEntity<String> clientDelete(@PathVariable int id) {
         return clientService.deleteClientFromRep(id)
                 ? new ResponseEntity<String>("Client successfully deleted", HttpStatus.NO_CONTENT)
                 : new ResponseEntity<String>("Client with id = " + id + " doesn't exists", HttpStatus.NOT_FOUND);
