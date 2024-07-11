@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sber.spring.Rest.entities.Bin;
 import sber.spring.Rest.entities.Client;
 import sber.spring.Rest.service.BinService;
 import sber.spring.Rest.service.ClientService;
@@ -23,10 +22,10 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<String> clientReg(@RequestBody Client client) throws URISyntaxException {
-        long savedId = clientService.saveClient(client, binService.createBin());
-        if (savedId == 0){
+        if (clientService.isClient(client)) {
             return new ResponseEntity<String>("Client with such login already exists", HttpStatus.OK);
-        } else {
+        } else{
+            int savedId = clientService.saveClient(client, binService.createBin());
             return new ResponseEntity<String>("Created client with id: " + savedId, HttpStatus.CREATED);
         }
     }

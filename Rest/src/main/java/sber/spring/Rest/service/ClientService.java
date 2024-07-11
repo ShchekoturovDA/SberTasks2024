@@ -17,6 +17,10 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
+    public boolean isClient(Client client) {
+       return clientRepository.isClient(client);
+    }
+
     public int saveClient(Client client, int binId) {
         if (!clientRepository.isClient(client)) {
             return clientRepository.signClient(client, binId);
@@ -32,7 +36,6 @@ public class ClientService {
     public boolean deleteClientFromRep(int id) {
         return clientRepository.deleteClient(id);
     }
-
 
 
 

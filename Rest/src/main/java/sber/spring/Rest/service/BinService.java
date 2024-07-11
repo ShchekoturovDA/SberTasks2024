@@ -2,6 +2,7 @@ package sber.spring.Rest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sber.spring.Rest.entities.Bin;
 import sber.spring.Rest.repositories.BinRepository;
 
@@ -36,6 +37,7 @@ public class BinService {
         return binRepository.deleteFromBin(binId, productId);
     }
 
+    @Transactional
     public boolean pay(int binId) {
         return binRepository.pay(binId);
     }
