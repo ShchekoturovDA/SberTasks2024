@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sber.spring.Rest.entities.Product;
 import sber.spring.Rest.service.ClientService;
+import sber.spring.Rest.service.ProductService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,17 +17,17 @@ import java.util.Optional;
 @RequestMapping("product")
 public class ProductController {
     @Autowired
-    private ClientService clientService;
+    private ProductService productService;
 
     @PostMapping
     public ResponseEntity<String> productCreate(@RequestBody Product product) throws URISyntaxException {
-        return new ResponseEntity<String>("Created Product with id: " + clientService.saveProduct(product), HttpStatus.CREATED);
+        return new ResponseEntity<String>("Created Product with id: " + productService.saveProduct(product), HttpStatus.CREATED);
     }
 
     @PutMapping()
     public ResponseEntity<String> productUpdate(@RequestBody Product product){
-        if (clientService.searchProductRep(product.getId()).isPresent()) {
-            clientService.updateProduct(product);
+        if (productService.searchProductRep(product.getId()).isPresent()) {
+            productService.updateProduct(product);
             return new ResponseEntity<String>("Product with id = " + product.getId() + " successfully changed", HttpStatus.OK);
         } else {
             return new ResponseEntity<String>("Product with id = " + product.getId() + " doesn't exists",HttpStatus.NOT_FOUND);
@@ -35,7 +36,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> productGet(@PathVariable int id){
-        Optional<Product> searched = clientService.searchProductRep(id);
+        Optional<Product> searched = productService.searchProductRep(id);
         return searched.isPresent()
                 ? ResponseEntity.ok().body(searched.get())
                 : ResponseEntity.notFound().build();
@@ -43,7 +44,7 @@ public class ProductController {
 
     @GetMapping("/filter/{name}")
     public ResponseEntity<List<Product>> productGetByName(@PathVariable String name){
-        List<Product> searched = clientService.searchProductByNameRep(name);
+        List<Product> searched = productService.searchProductByNameRep(name);
         return !searched.isEmpty()
                 ? ResponseEntity.ok().body(searched)
                 : ResponseEntity.notFound().build();
@@ -52,7 +53,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> productDelete(@PathVariable int id){
-        return clientService.deleteProductFromRep(id)
+        return productService.deleteProductFromRep(id)
                 ? new ResponseEntity<String>("Product with id = " + id + " successfully deleted", HttpStatus.NO_CONTENT)
                 : new ResponseEntity<String>("Product with id = " + id + " doesn't exists", HttpStatus.NOT_FOUND);
     }
