@@ -21,7 +21,7 @@ public class BinController {
 
     @PutMapping("/{binId}/add/{productId}")
     public ResponseEntity<Void> binAdd(@PathVariable long binId, @PathVariable long productId) {
-        if (binService.searchBinRep(binId).isPresent() || productService.searchProductRep(productId).isPresent()) {
+        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent()) {
             return ResponseEntity.notFound().build();
         } else if (!binService.isInBin(binId, productId)) {
             binService.addToBin(binId, productService.searchProductRep(productId).get());
@@ -32,7 +32,7 @@ public class BinController {
 
     @PutMapping("{binId}/change/{productId}/{quantity}")
     public ResponseEntity<Void> binChangeQuantity(@PathVariable long binId, @PathVariable long productId, @PathVariable int quantity) {
-        if (binService.searchBinRep(binId).isEmpty() || productService.searchProductRep(productId).isEmpty()) {
+        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent()) {
             return ResponseEntity.notFound().build();
         } else if (!binService.isInBin(binId, productId)) {
             return ResponseEntity.notFound().build();
@@ -45,7 +45,7 @@ public class BinController {
 
     @DeleteMapping("/{binId}/change/{productId}")
     public ResponseEntity<Void> deleteFromBin(@PathVariable long binId, @PathVariable long productId) {
-        if (binService.searchBinRep(binId).isEmpty() || productService.searchProductRep(productId).isEmpty()) {
+        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent()) {
             return ResponseEntity.notFound().build();
         } else if (!binService.isInBin(binId, productId)) {
             return ResponseEntity.notFound().build();
@@ -58,7 +58,7 @@ public class BinController {
 
     @PutMapping("/{binId}/payment")
     public ResponseEntity<Void> payment(@PathVariable long binId) {
-        if (binService.searchBinRep(binId).isEmpty()) {
+        if (!binService.searchBinRep(binId).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             binService.pay(binId);
