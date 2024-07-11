@@ -2,6 +2,7 @@ package sber.spring.JDBCRest.repositories;
 
 import org.springframework.stereotype.Repository;
 import sber.spring.JDBCRest.entities.Product;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,33 +21,33 @@ public class ProductRepository {
     public long addProduct(Product product) {
         String insertSql = "INSERT INTO products (name_product, value_product, quantity) VALUES(?, ?, ?);";
 
-        try(Connection connection = DriverManager.getConnection(JDBC);
-            PreparedStatement prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
+        try (Connection connection = DriverManager.getConnection(JDBC);
+             PreparedStatement prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, product.getName());
             prepareStatement.setInt(2, product.getValue());
             prepareStatement.setInt(3, product.getQuantity());
 
             prepareStatement.executeUpdate();
             ResultSet rs = prepareStatement.getGeneratedKeys();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt(1);
             } else {
                 throw new RuntimeException("Ошибка при получении идентификатора");
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void update(Product product) {
         String selectSql = """
-                UPDATE products
-                SET
-                name_product = ?,
-                value_product = ?,
-                quantity = ?
-                where id_product = ?;
-        """;
+                        UPDATE products
+                        SET
+                        name_product = ?,
+                        value_product = ?,
+                        quantity = ?
+                        where id_product = ?;
+                """;
         try (Connection connection = DriverManager.getConnection(JDBC);
              PreparedStatement prepareStatement = connection.prepareStatement(selectSql)) {
             prepareStatement.setString(1, product.getName());
@@ -109,7 +110,7 @@ public class ProductRepository {
 
             ResultSet resultSet = prepareStatement.executeQuery();
 
-            List <Product> products = new ArrayList<Product>();
+            List<Product> products = new ArrayList<Product>();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id_product");
                 String productName = resultSet.getString("name_product");

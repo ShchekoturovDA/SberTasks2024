@@ -18,18 +18,18 @@ public class BinRepository {
     public int createBin() {
         String insertSql = "INSERT INTO bins (promocode) VALUES(?);";
 
-        try(Connection connection = DriverManager.getConnection(JDBC);
-            PreparedStatement prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
+        try (Connection connection = DriverManager.getConnection(JDBC);
+             PreparedStatement prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, "");
 
             prepareStatement.executeUpdate();
             ResultSet rs = prepareStatement.getGeneratedKeys();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt(1);
             } else {
                 throw new RuntimeException("Ошибка при получении идентификатора");
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -57,7 +57,7 @@ public class BinRepository {
         }
     }
 
-    public boolean isInBin(int binId, int productId){
+    public boolean isInBin(int binId, int productId) {
         String selectSql = "SELECT * FROM products_bins where (id_bin = ? AND id_product = ?)";
 
         try (Connection connection = DriverManager.getConnection(JDBC);
@@ -77,35 +77,35 @@ public class BinRepository {
 
         String insertSql = "INSERT INTO products_bins (id_product, id_bin, quantity) VALUES(?, ?, ?);";
 
-        try(Connection connection = DriverManager.getConnection(JDBC);
-            PreparedStatement prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
+        try (Connection connection = DriverManager.getConnection(JDBC);
+             PreparedStatement prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setInt(1, productId);
             prepareStatement.setInt(2, binId);
             prepareStatement.setInt(3, 1);
 
             prepareStatement.executeUpdate();
             ResultSet rs = prepareStatement.getGeneratedKeys();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt(1);
             } else {
                 throw new RuntimeException("Ошибка при получении идентификатора");
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void changeQuantity(int binId, int productId, int quantity) {
         String selectSql = """
-                UPDATE products_bins
-                SET
-                quantity = ?
-                where (id_product = ? AND id_bin = ?);
-        """;
+                        UPDATE products_bins
+                        SET
+                        quantity = ?
+                        where (id_product = ? AND id_bin = ?);
+                """;
         try (Connection connection = DriverManager.getConnection(JDBC);
              PreparedStatement prepareStatement = connection.prepareStatement(selectSql)) {
             prepareStatement.setInt(1, quantity);
-            prepareStatement.setInt(2,productId);
+            prepareStatement.setInt(2, productId);
             prepareStatement.setInt(3, binId);
 
             prepareStatement.executeUpdate();

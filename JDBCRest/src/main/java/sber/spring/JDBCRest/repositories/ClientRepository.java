@@ -19,8 +19,8 @@ public class ClientRepository {
     public int signClient(Client client, int binId) {
         String insertSql = "INSERT INTO clients (name_client, login_client, password_client, email, id_bin) VALUES(?, ?, ?, ?, ?);";
 
-        try(Connection connection = DriverManager.getConnection(JDBC);
-            PreparedStatement prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
+        try (Connection connection = DriverManager.getConnection(JDBC);
+             PreparedStatement prepareStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, client.getName());
             prepareStatement.setString(2, client.getLogin());
             prepareStatement.setString(3, client.getPassword());
@@ -29,12 +29,12 @@ public class ClientRepository {
 
             prepareStatement.executeUpdate();
             ResultSet rs = prepareStatement.getGeneratedKeys();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt(1);
             } else {
                 throw new RuntimeException("Ошибка при получении идентификатора");
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 

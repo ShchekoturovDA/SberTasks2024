@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import sber.spring.JDBCRest.service.BinService;
 import sber.spring.JDBCRest.service.ClientService;
+import sber.spring.JDBCRest.service.ProductService;
+
 import java.net.URISyntaxException;
 
 @RestController
@@ -15,44 +18,55 @@ import java.net.URISyntaxException;
 public class BinController {
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private BinService binService;
+    @Autowired
+    private ProductService productService;
+
 
     @PutMapping("/{binId}/add/{productId}")
     public ResponseEntity<Void> binAdd(@PathVariable int binId, @PathVariable int productId) throws URISyntaxException {
-        if (clientService.isInBin(binId, productId)){
+        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent()) {
+            return ResponseEntity.notFound().build();
+        } else if (binService.isInBin(binId, productId)) {
             return ResponseEntity.notFound().build();
         } else {
-            int savedId = clientService.addToBin(binId, productId);
+            int savedId = binService.addToBin(binId, productId);
             return ResponseEntity.ok().build();
         }
     }
 
     @PutMapping("{binId}/change/{productId}/{quantity}")
-    public ResponseEntity<Void> binChangeQuantity(@PathVariable int binId, @PathVariable int productId, @PathVariable int quantity){
-        if (!clientService.isInBin(binId, productId)) {
+    public ResponseEntity<Void> binChangeQuantity(@PathVariable int binId, @PathVariable int productId, @PathVariable int quantity) {
+        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent()) {
+            return ResponseEntity.notFound().build();
+        } else if (!binService.isInBin(binId, productId)) {
             return ResponseEntity.notFound().build();
         } else {
-            clientService.changeQuantity(binId, productId, quantity);
+            binService.changeQuantity(binId, productId, quantity);
             return ResponseEntity.ok().build();
         }
     }
 
     @DeleteMapping("/{binId}/change/{productId}")
-    public ResponseEntity<Void> deleteFromBin(@PathVariable int binId, @PathVariable int productId){
-       if (!clientService.isInBin(binId, productId)) {
+    public ResponseEntity<Void> deleteFromBin(@PathVariable int binId, @PathVariable int productId) {
+        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent()) {
+            return ResponseEntity.notFound().build();
+        } else if (!binService.isInBin(binId, productId)) {
             return ResponseEntity.notFound().build();
         } else {
-            return clientService.deleteProductFromBin(binId, productId)
+            return binService.deleteProductFromBin(binId, productId)
                     ? ResponseEntity.noContent().build()
                     : ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/{binId}/payment")
-    public ResponseEntity<Void> payment(@PathVariable int binId){
-        if (clientService.searchBinRep(binId).isEmpty()) {
+    public ResponseEntity<Void> payment(@PathVariable int binId) {
+        if (!binService.searchBinRep(binId).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
-            return clientService.pay(binId)
+            return binService.pay(binId)
                     ? ResponseEntity.noContent().build()
                     : ResponseEntity.notFound().build();
         }
