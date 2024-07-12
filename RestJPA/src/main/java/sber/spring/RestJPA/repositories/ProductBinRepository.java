@@ -18,4 +18,8 @@ public interface ProductBinRepository extends JpaRepository<ProductBin, Integer>
     @Modifying
     @Transactional
     void deleteAllByBinId(Bin binId);
+
+    @Modifying
+    @Transactional
+    void deleteByBinIdAndProduct(Bin binId, Product productId);
 }

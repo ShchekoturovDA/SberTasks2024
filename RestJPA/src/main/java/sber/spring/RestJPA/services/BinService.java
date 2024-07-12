@@ -50,12 +50,8 @@ public class BinService {
     }
 
 
-    public void add(int binId, int productId){
-
-    }
-
-    public void deleteProduct(int binId, int productId) {
-        productBinRepository.deleteById(productBinRepository.findAll().stream().filter(x -> x.getBinId().getId() == binId && x.getProduct().getId() == productId).findAny().get().getId());
+    public void deleteProduct(Bin binId, Product productId) {
+        productBinRepository.deleteByBinIdAndProduct(binId, productId);
     }
 
     public void deleteAllByBinId(Bin bin){

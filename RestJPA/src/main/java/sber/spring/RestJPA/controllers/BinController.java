@@ -69,7 +69,7 @@ public class BinController {
         } else if (!binService.findByBinProduct(bin.get(), product.get()).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
-            binService.deleteProduct(binId, productId);
+            binService.deleteProduct(bin.get(), product.get());
             return ResponseEntity.noContent().build();
         }
     }
