@@ -28,10 +28,10 @@ public class BinController {
     @PutMapping("/{binId}/add/{productId}")
     public ResponseEntity<Void> binAdd(@PathVariable int binId, @PathVariable int productId) throws URISyntaxException {
         Optional<Bin> bin = binService.findById(binId);
-        Optional<Product> product = productService.getById(binId);
+        Optional<Product> product = productService.getById(productId);
         if (!bin.isPresent() || !product.isPresent()) {
             return ResponseEntity.notFound().build();
-        } else if (binService.isInBin(binId, productId)) {
+        } else if (binService.findByBinProduct(bin.get(), product.get()).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             ProductBin productBin = new ProductBin();
@@ -46,12 +46,14 @@ public class BinController {
 
     @PutMapping("{binId}/change/{productId}/{quantity}")
     public ResponseEntity<Void> binChangeQuantity(@PathVariable int binId, @PathVariable int productId, @PathVariable int quantity) {
-        if (!binService.findById(binId).isPresent() || !productService.getById(binId).isPresent()) {
+        Optional<Bin> bin = binService.findById(binId);
+        Optional<Product> product = productService.getById(productId);
+        if (!bin.isPresent() || !product.isPresent()) {
             return ResponseEntity.notFound().build();
-        } else if (!binService.isInBin(binId, productId)) {
+        } else if (!binService.findByBinProduct(bin.get(), product.get()).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
-            ProductBin productBin = binService.findProductBin(binId, productId).get();
+            ProductBin productBin = binService.findByBinProduct(bin.get(), product.get()).get();
             productBin.setQuantity(quantity);
             binService.saveProduct(productBin);
             return ResponseEntity.ok().build();
@@ -60,9 +62,11 @@ public class BinController {
 
     @DeleteMapping("/{binId}/change/{productId}")
     public ResponseEntity<Void> deleteFromBin(@PathVariable int binId, @PathVariable int productId) {
-        if (!binService.findById(binId).isPresent() || !productService.getById(binId).isPresent()) {
+        Optional<Bin> bin = binService.findById(binId);
+        Optional<Product> product = productService.getById(productId);
+        if (!bin.isPresent() || !product.isPresent()) {
             return ResponseEntity.notFound().build();
-        } else if (!binService.isInBin(binId, productId)) {
+        } else if (!binService.findByBinProduct(bin.get(), product.get()).isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
             binService.deleteProduct(binId, productId);
@@ -72,11 +76,15 @@ public class BinController {
 
     @PutMapping("/{binId}/payment")
     public ResponseEntity<Void> payment(@PathVariable int binId) {
-        if (!binService.findById(binId).isPresent()) {
+        Optional<Bin> bin = binService.findById(binId);
+        if (!bin.isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
-            binService.pay(binId);
-            ResponseEntity.noContent().build()ж
+            for(ProductBin productBin : binService.findByBin(bin.get())){
+                productService.sell(productBin.getQuantity(), productBin.getProduct().getId());
+            }
+            binService.deleteAllByBinId(bin.get());
+            return ResponseEntity.noContent().build();
         }
     }
 }

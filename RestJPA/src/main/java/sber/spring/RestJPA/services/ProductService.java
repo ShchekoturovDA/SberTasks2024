@@ -2,6 +2,7 @@ package sber.spring.RestJPA.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sber.spring.RestJPA.entities.Product;
 import sber.spring.RestJPA.repositories.ProductRepository;
 
@@ -37,6 +38,10 @@ public class ProductService {
     }
 
     public List<Product> findAllByName(String name){
-        return productRepository.findAll().stream().filter(x -> x.getName().equals(name)).collect(Collectors.toList());
+        return productRepository.findByName(name);
+    }
+
+    public void sell(int quantity, int productId){
+        productRepository.sell(quantity, productId);
     }
 }

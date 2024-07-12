@@ -34,6 +34,7 @@ public class ClientService {
     }
 
     public boolean uniqueLogin(Client client) {
-        return clientRepository.findAll().stream().filter(x -> x.getLogin().equals(client.getLogin())).findAny().isPresent();
+        return clientRepository.findOneByLogin(client.getLogin()).isPresent();
+//        return clientRepository.findAll().stream().filter(x -> x.getLogin().equals(client.getLogin())).findAny().isPresent();
     }
 }
