@@ -6,20 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products_bins")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class ProductBin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private String name;
+    @JoinColumn(name = "id_product", nullable = false)
+    private Product product;
 
-    @Column(nullable = false)
-    private int value;
+    @JoinColumn(name = "id_bin", nullable = false)
+    private Bin binId;
 
     @Column(nullable = false)
     private int quantity;
