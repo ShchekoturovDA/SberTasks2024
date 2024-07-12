@@ -5,22 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "products")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "value", nullable = false)
     private int value;
 
-    @Column(nullable = false)
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 }

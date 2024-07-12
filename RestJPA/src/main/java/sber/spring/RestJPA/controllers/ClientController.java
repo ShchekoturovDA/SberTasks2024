@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("client")
 public class ClientController {
-/*
+
     @Autowired
     private ClientService clientService;
 
@@ -24,17 +24,18 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<String> clientReg(@RequestBody Client client) throws URISyntaxException {
-        long savedId = clientService.saveClient(client, binService.createBin());
-        if (savedId == 0) {
+        if (clientService.uniqueLogin(client)) {
             return new ResponseEntity<String>("Client with such login already exists", HttpStatus.OK);
         } else {
-            return ResponseEntity.created(new URI("http://localhost:8080/client/" + savedId)).build();
+            client.setBin(binService.save());
+            Client savedClient = clientService.save(client);
+            return ResponseEntity.created(new URI("http://localhost:8080/client/" + savedClient.getId())).build();
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Client> clientGet(@PathVariable int id) {
-        Optional<Client> searched = clientService.searchClientRep(id);
+        Optional<Client> searched = clientService.findById(id);
         return searched.isPresent()
                 ? ResponseEntity.ok().body(searched.get())
                 : ResponseEntity.notFound().build();
@@ -42,8 +43,11 @@ public class ClientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> clientDelete(@PathVariable int id) {
-        return clientService.deleteClientFromRep(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
-    }*/
+        if (clientService.isExists(id)){
+            clientService.delete(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

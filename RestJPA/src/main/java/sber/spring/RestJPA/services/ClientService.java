@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import sber.spring.RestJPA.entities.Client;
 import sber.spring.RestJPA.repositories.ClientRepository;
 
+import java.util.Optional;
+
 @Service
 public class ClientService {
 
@@ -19,15 +21,19 @@ public class ClientService {
         return clientRepository.existsById(id);
     }
 
-    public void save(Client client){
-        clientRepository.save(client);
+    public Client save(Client client){
+        return clientRepository.save(client);
     }
 
-    public void findById(int id){
-        clientRepository.findById(id);
+    public Optional<Client> findById(int id){
+        return clientRepository.findById(id);
     }
 
     public void delete(int id){
         clientRepository.deleteById(id);
+    }
+
+    public boolean uniqueLogin(Client client) {
+        return clientRepository.findAll().stream().filter(x -> x.getLogin().equals(client.getLogin())).findAny().isPresent();
     }
 }
