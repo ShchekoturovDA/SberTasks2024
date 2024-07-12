@@ -24,7 +24,7 @@ public class ProductController {
 
     @PutMapping()
     public void productUpdate(@RequestBody Product product) {
-        if(productService.isExist(product.getId())){
+        if (productService.isExist(product.getId())) {
             productService.save(product);
         }
     }
@@ -47,7 +47,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> productDelete(@PathVariable int id) {
-        if (productService.isExist(id)){
+        if (productService.isExist(id)) {
             productService.delete(id);
             return ResponseEntity.noContent().build();
         } else {

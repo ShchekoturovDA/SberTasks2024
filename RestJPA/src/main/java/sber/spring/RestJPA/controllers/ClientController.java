@@ -43,7 +43,7 @@ public class ClientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> clientDelete(@PathVariable int id) {
-        if (clientService.isExists(id)){
+        if (clientService.isExists(id)) {
             clientService.delete(id);
             return ResponseEntity.noContent().build();
         } else {

@@ -80,7 +80,7 @@ public class BinController {
         if (!bin.isPresent()) {
             return ResponseEntity.notFound().build();
         } else {
-            for(ProductBin productBin : binService.findByBin(bin.get())){
+            for (ProductBin productBin : binService.findByBin(bin.get())) {
                 productService.sell(productBin.getQuantity(), productBin.getProduct().getId());
             }
             binService.deleteAllByBinId(bin.get());

@@ -18,12 +18,12 @@ public class BinService {
     private final ProductBinRepository productBinRepository;
 
     @Autowired
-    public BinService(BinRepository binRepository, ProductBinRepository productBinRepository){
+    public BinService(BinRepository binRepository, ProductBinRepository productBinRepository) {
         this.binRepository = binRepository;
         this.productBinRepository = productBinRepository;
     }
 
-    public Bin save(){
+    public Bin save() {
         Bin bin = new Bin();
         bin.setPromoCode("");
         return binRepository.save(bin);
@@ -33,19 +33,19 @@ public class BinService {
         productBinRepository.save(productBin);
     }
 
-    public Optional<Bin> findById(int binId){
+    public Optional<Bin> findById(int binId) {
         return binRepository.findById(binId);
     }
 
-    public boolean isExist(int binId){
+    public boolean isExist(int binId) {
         return binRepository.existsById(binId);
     }
 
-    public Optional<ProductBin> findByBinProduct(Bin binId, Product product){
+    public Optional<ProductBin> findByBinProduct(Bin binId, Product product) {
         return productBinRepository.findByBinIdAndProduct(binId, product);
     }
 
-    public List<ProductBin> findByBin(Bin binId){
+    public List<ProductBin> findByBin(Bin binId) {
         return productBinRepository.findAllByBinId(binId);
     }
 
@@ -54,11 +54,7 @@ public class BinService {
         productBinRepository.deleteByBinIdAndProduct(binId, productId);
     }
 
-    public void deleteAllByBinId(Bin bin){
+    public void deleteAllByBinId(Bin bin) {
         productBinRepository.deleteAllByBinId(bin);
-    }
-
-    public void pay(int binId) {
-
     }
 }

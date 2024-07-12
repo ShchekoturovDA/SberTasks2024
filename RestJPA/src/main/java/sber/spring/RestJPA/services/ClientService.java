@@ -13,23 +13,23 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository){
+    public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
-    public boolean isExists(int id){
+    public boolean isExists(int id) {
         return clientRepository.existsById(id);
     }
 
-    public Client save(Client client){
+    public Client save(Client client) {
         return clientRepository.save(client);
     }
 
-    public Optional<Client> findById(int id){
+    public Optional<Client> findById(int id) {
         return clientRepository.findById(id);
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         clientRepository.deleteById(id);
     }
 
