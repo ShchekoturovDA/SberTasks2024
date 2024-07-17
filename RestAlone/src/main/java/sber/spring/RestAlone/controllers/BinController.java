@@ -32,9 +32,7 @@ public class BinController {
 
     @PutMapping("{binId}/change/{productId}/{quantity}")
     public ResponseEntity<Void> binChangeQuantity(@PathVariable long binId, @PathVariable long productId, @PathVariable int quantity) {
-        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent()) {
-            return ResponseEntity.notFound().build();
-        } else if (!binService.isInBin(binId, productId)) {
+        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent() || !binService.isInBin(binId, productId)) {
             return ResponseEntity.notFound().build();
         } else {
             binService.changeQuantity(binId, productId, quantity);
@@ -45,9 +43,7 @@ public class BinController {
 
     @DeleteMapping("/{binId}/change/{productId}")
     public ResponseEntity<Void> deleteFromBin(@PathVariable long binId, @PathVariable long productId) {
-        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent()) {
-            return ResponseEntity.notFound().build();
-        } else if (!binService.isInBin(binId, productId)) {
+        if (!binService.searchBinRep(binId).isPresent() || !productService.searchProductRep(productId).isPresent() || !binService.isInBin(binId, productId)) {
             return ResponseEntity.notFound().build();
         } else {
             binService.deleteProductFromBin(binId, productId);

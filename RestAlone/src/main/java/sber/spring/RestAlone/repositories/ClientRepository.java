@@ -39,16 +39,13 @@ public class ClientRepository {
     }
 
     public boolean deleteClient(long id) {
-        Client delete = clientList.stream()
+        Optional<Client> delete = clientList.stream()
                 .filter(x -> x.getId() == id)
-                .findAny()
-                .orElse(null);
-        if (delete == null) {
-            return false;
-        } else {
-            clientList.remove(delete);
-            return true;
+                .findAny();
+        if (delete.isPresent()) {
+            clientList.remove(delete.get());
         }
+        return delete.isPresent();
     }
 
     private long generateId() {
