@@ -19,43 +19,50 @@ public class BinController {
 
     @PutMapping("/{binId}/add/{productId}")
     public ResponseEntity<String> binAdd(@PathVariable int binId, @PathVariable int productId) throws URISyntaxException {
+        String message = "";
         if (!productService.searchProductRep(productId).isPresent()) {
-            return new ResponseEntity<String>("Product with id = " + productId + " doesn't exists", HttpStatus.NOT_FOUND);
+            message = "Product with id = " + productId + " doesn't exists";
         } else if (!binService.searchBinRep(binId).isPresent()) {
-            return new ResponseEntity<String>("bin with id = " + binId + " doesn't exists", HttpStatus.NOT_FOUND);
+            message = "bin with id = " + binId + " doesn't exists";
         } else if (binService.isInBin(binId, productId)) {
-            return new ResponseEntity<String>("You already added this product", HttpStatus.NOT_FOUND);
+            message = "You already added this product";
         } else {
             binService.addToBin(binId, productId);
             return new ResponseEntity<String>("Product added", HttpStatus.CREATED);
         }
+        return new ResponseEntity<String>(message, HttpStatus.NOT_FOUND);
+
     }
 
     @PutMapping("{binId}/change/{productId}/{quantity}")
     public ResponseEntity<String> binChangeQuantity(@PathVariable int binId, @PathVariable int productId, @PathVariable int quantity) {
+        String message = "";
         if (!productService.searchProductRep(productId).isPresent()) {
-            return new ResponseEntity<String>("Product with id = " + productId + " doesn't exists", HttpStatus.NOT_FOUND);
+            message = "Product with id = " + productId + " doesn't exists";
         } else if (!binService.searchBinRep(binId).isPresent()) {
-            return new ResponseEntity<String>("bin with id = " + binId + " doesn't exists", HttpStatus.NOT_FOUND);
+            message = "bin with id = " + binId + " doesn't exists";
         } else if (!binService.isInBin(binId, productId)) {
-            return new ResponseEntity<String>("You didn't add this product", HttpStatus.NOT_FOUND);
+            message = "You didn't add this product";
         } else {
             binService.changeQuantity(binId, productId, quantity);
             return new ResponseEntity<String>("Quantity changed", HttpStatus.OK);
         }
+        return new ResponseEntity<String>(message, HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{binId}/change/{productId}")
     public ResponseEntity<String> deleteFromBin(@PathVariable int binId, @PathVariable int productId) {
+        String message = "";
         if (!productService.searchProductRep(productId).isPresent()) {
-            return new ResponseEntity<String>("Product with id = " + productId + " doesn't exists", HttpStatus.NOT_FOUND);
+            message = "Product with id = " + productId + " doesn't exists";
         } else if (!binService.searchBinRep(binId).isPresent()) {
-            return new ResponseEntity<String>("bin with id = " + binId + " doesn't exists", HttpStatus.NOT_FOUND);
+            message = "bin with id = " + binId + " doesn't exists";
+        } else if(!binService.deleteProductFromBin(binId, productId)){
+            message = "You didn't add this product";
         } else {
-            return binService.deleteProductFromBin(binId, productId)
-                    ? new ResponseEntity<String>("Product deleted successfully", HttpStatus.NO_CONTENT)
-                    : new ResponseEntity<String>("You didn't add this product", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("Product deleted successfully", HttpStatus.NO_CONTENT);
         }
+        return new ResponseEntity<String>(message, HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{binId}/payment")

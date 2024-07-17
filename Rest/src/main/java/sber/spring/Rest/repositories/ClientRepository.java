@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public class ClientRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    public final JdbcTemplate jdbcTemplate;
 
     @Autowired
     ClientRepository(JdbcTemplate jdbcTemplate) {

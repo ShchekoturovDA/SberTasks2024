@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Repository
 public class BinRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    public final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public BinRepository(JdbcTemplate jdbcTemplate) {
