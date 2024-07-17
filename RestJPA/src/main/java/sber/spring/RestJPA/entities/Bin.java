@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Bin implements Serializable {
+public class Bin{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
