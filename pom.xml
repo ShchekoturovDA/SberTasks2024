@@ -10,6 +10,15 @@
     <packaging>pom</packaging>
     <modules>
         <module>RevJav</module>
+        <module>JDBCRest</module>
+        <module>Mvc</module>
+        <module>Rest</module>
+        <module>RestAlone</module>
+        <module>RestJPA</module>
+        <module>SpringAspect</module>
+        <module>SpringContext</module>
+        <module>SpringContextBank</module>
+        <module>SpringContextWithBeans</module>
     </modules>
 
     <properties>
