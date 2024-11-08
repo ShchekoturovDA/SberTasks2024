@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sber.spring.Rest.entities.Client;
 import sber.spring.Rest.repositories.ClientRepository;
-
+import java.io.File;
 import java.util.Optional;
 
 @Service
