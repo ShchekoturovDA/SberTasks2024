@@ -1,0 +1,1 @@
+Nahuy Ya menyal Voobshche
